@@ -2,64 +2,60 @@
 
 from __future__ import annotations
 
+import json
 import os
-import sys
+import urllib.request
 from datetime import datetime, timezone
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from radar import (
     enrich_with_furnidata,
-    fetch_eth_prices,
     fetch_shop_items,
-    fetch_shop_prices,
     filter_shop_items,
-    is_visible_release,
-    item_key,
-    send_discord,
+    image_url,
 )
 
 
+def post(webhook: str, payload: dict) -> None:
+    req = urllib.request.Request(
+        webhook,
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        headers={"Content-Type": "application/json", "User-Agent": "habbo-furni-radar/2.0"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=20) as response:
+        print("Discord HTTP:", response.status)
+
+
 def main() -> int:
-    webhook = os.getenv("DISCORD_WEBHOOK_URL", "").strip()
+    webhook = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not webhook:
         raise SystemExit("DISCORD_WEBHOOK_URL no está configurado.")
 
-    items, digest = fetch_shop_items()
-    current = [
-        item
-        for item in filter_shop_items(items)
-        if is_visible_release(item)
-    ]
+    items, _ = fetch_shop_items()
+    current = [item for item in filter_shop_items(items) if item.get("startsAtTimestamp")]
 
-    current.sort(
-        key=lambda item: (
-            item.get("startsAtTimestamp")
-            or item.get("visibleAtTimestamp")
-            or item.get("createdAt")
-            or ""
-        ),
-        reverse=True,
-    )
+    current.sort(key=lambda x: x.get("startsAtTimestamp") or "", reverse=True)
+    item = current[0]
+    enriched, _ = enrich_with_furnidata([item])
+    item = enriched[0]
 
-    latest = list(reversed(current[:10]))
-    enriched, furnidata_digest = enrich_with_furnidata(latest)
-    markets = fetch_shop_prices([item_key(item) for item in enriched])
-    eth_rates = fetch_eth_prices()
-    detected_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    payload = {
+        "username": "Habbo Furni Radar",
+        "content": "🧪 Prueba mínima de embed",
+        "allowed_mentions": {"parse": []},
+        "embeds": [
+            {
+                "title": "Habbo Furni Radar • " + str(item.get("name", "Collectible")),
+                "description": "Lanzamiento: " + str(item.get("startsAtTimestamp", "")),
+                "image": {"url": image_url(item)},
+            }
+        ],
+    }
 
-    send_discord(webhook, enriched, markets, eth_rates, detected_at)
-
-    print(f"Discord OK: {len(enriched)} elementos enviados.")
-    print(f"Shop SHA256: {digest}")
-    print(f"Furnidata SHA256: {furnidata_digest or 'no disponible'}")
-    print("Orden: más antiguo -> más reciente.")
-    for item in enriched:
-        print(
-            f"{item.get('name')} | {item.get('productCode')} | "
-            f"{item.get('startsAtTimestamp')} | {item.get('visibleAtTimestamp')}"
-        )
+    print("Testing item:", item.get("name"))
+    print("Image:", image_url(item))
+    post(webhook, payload)
+    print("Discord OK")
     return 0
 
 
