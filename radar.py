@@ -517,7 +517,7 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
     })
 
     embed: dict[str, Any] = {
-        "title": rarity_icon + " " + name,
+        "title": "🆕✨ " + rarity_icon + " " + name,
         "url": "https://collectibles.habbo.com/shop/?tab=shop",
         "description": description,
         "color": RARITY_COLORS.get(rarity_key, 0x5865F2),
