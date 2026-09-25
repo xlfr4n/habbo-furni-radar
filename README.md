@@ -1,5 +1,7 @@
 # Habbo Furni Radar
 
+Estado: radar activo en GitHub Actions.
+
 Radar ligero para detectar nuevos Habbo Collectibles desde la API oficial de la tienda y enviar avisos enriquecidos a un canal de Discord mediante webhook.
 
 ## Fuente principal
