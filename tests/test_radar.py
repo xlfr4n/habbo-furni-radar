@@ -1,6 +1,7 @@
 import unittest
 
 from radar import (
+    build_embed,
     format_timestamp,
     image_url,
     is_non_token_collectible,
@@ -78,6 +79,27 @@ class RadarTests(unittest.TestCase):
         self.assertEqual(
             shop_status({**SAMPLE_ITEM, "hidden": True}),
             "Oculto",
+        )
+
+    def test_embed_is_within_discord_limits(self):
+        embed = build_embed(
+            SAMPLE_ITEM,
+            {"price": 0.001, "link": "https://example.com/market"},
+            {"usd": 2500.0, "eur": 2100.0},
+            "2026-09-25T10:00:00.000Z",
+        )
+        self.assertLessEqual(len(embed.get("description", "")), 4096)
+        total = len(embed.get("title", "")) + len(embed.get("description", ""))
+        total += len(embed.get("footer", {}).get("text", ""))
+        for field in embed.get("fields", []):
+            self.assertLessEqual(len(field["name"]), 256)
+            self.assertLessEqual(len(field["value"]), 1024)
+            total += len(field["name"]) + len(field["value"])
+        self.assertLessEqual(total, 6000)
+        self.assertTrue(embed["image"]["url"].startswith("https://"))
+        self.assertEqual(
+            embed["url"],
+            "https://collectibles.habbo.com/shop/?tab=shop",
         )
 
 
