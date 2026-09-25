@@ -62,47 +62,78 @@ def format_timestamp(value: Any, tz_name: str = DEFAULT_TIMEZONE) -> str:
     return f"{local:%d/%m/%Y %H:%M:%S} {label} · UTC {utc:%H:%M:%SZ}"
 
 
-def get_json(url: str, timeout: int = 30) -> tuple[Any, str]:
-    req = urllib.request.Request(
-        url,
-        headers={
-            "Accept": "application/json",
-            "User-Agent": USER_AGENT,
-            "Cache-Control": "no-cache",
-        },
-        method="GET",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            body = response.read()
-            charset = response.headers.get_content_charset() or "utf-8"
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
+def _retry_delay(attempt: int, headers: Any | None = None) -> float:
+    retry_after = headers.get("Retry-After") if headers is not None else None
+    if retry_after:
+        try:
+            return min(max(float(retry_after), 0.5), 20)
+        except (TypeError, ValueError):
+            pass
+    return min(1.5 * (2 ** attempt), 10.0)
 
-    raw = body.decode(charset, errors="replace")
-    try:
-        return json.loads(raw), hashlib.sha256(body).hexdigest()
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(f"JSON inválido de {url}: {exc}") from exc
+
+def get_json(url: str, timeout: int = 30) -> tuple[Any, str]:
+    for attempt in range(5):
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Accept": "application/json",
+                "User-Agent": USER_AGENT,
+                "Cache-Control": "no-cache",
+            },
+            method="GET",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                body = response.read()
+                charset = response.headers.get_content_charset() or "utf-8"
+                raw = body.decode(charset, errors="replace")
+                try:
+                    return json.loads(raw), hashlib.sha256(body).hexdigest()
+                except json.JSONDecodeError as exc:
+                    raise RuntimeError(f"JSON inválido de {url}: {exc}") from exc
+        except urllib.error.HTTPError as exc:
+            if exc.code == 429 or 500 <= exc.code < 600:
+                if attempt < 4:
+                    time.sleep(_retry_delay(attempt, exc.headers))
+                    continue
+            raise RuntimeError(f"HTTP {exc.code} al consultar {url}") from exc
+        except urllib.error.URLError as exc:
+            if attempt < 4:
+                time.sleep(_retry_delay(attempt))
+                continue
+            raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
+    raise RuntimeError(f"No se pudo descargar {url}.")
 
 
 def get_text(url: str, timeout: int = 30) -> tuple[str, str]:
-    req = urllib.request.Request(
-        url,
-        headers={
-            "Accept": "application/xml,text/xml;q=0.9,*/*;q=0.1",
-            "User-Agent": USER_AGENT,
-            "Cache-Control": "no-cache",
-        },
-        method="GET",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as response:
-            body = response.read()
-            charset = response.headers.get_content_charset() or "utf-8"
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
-    return body.decode(charset or "utf-8", errors="replace"), hashlib.sha256(body).hexdigest()
+    for attempt in range(5):
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Accept": "application/xml,text/xml;q=0.9,*/*;q=0.1",
+                "User-Agent": USER_AGENT,
+                "Cache-Control": "no-cache",
+            },
+            method="GET",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                body = response.read()
+                charset = response.headers.get_content_charset() or "utf-8"
+                return body.decode(charset, errors="replace"), hashlib.sha256(body).hexdigest()
+        except urllib.error.HTTPError as exc:
+            if exc.code == 429 or 500 <= exc.code < 600:
+                if attempt < 4:
+                    time.sleep(_retry_delay(attempt, exc.headers))
+                    continue
+            raise RuntimeError(f"HTTP {exc.code} al consultar {url}") from exc
+        except urllib.error.URLError as exc:
+            if attempt < 4:
+                time.sleep(_retry_delay(attempt))
+                continue
+            raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
+    raise RuntimeError(f"No se pudo descargar {url}.")
 
 
 def is_non_token_collectible(item: dict[str, Any]) -> bool:
@@ -323,96 +354,219 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
     furnidata = item.get("furnidata") or {}
     launch_key = release_source(item)
 
-    description_lines = [
-        f"**Lanzamiento exacto:** {format_timestamp(item.get(launch_key))}",
-        f"**Visible en tienda:** {format_timestamp(item.get('visibleAtTimestamp'))}",
-        f"**Creado en catálogo:** {format_timestamp(item.get('createdAt'))}",
-        f"**Última actualización API:** {format_timestamp(item.get('updatedAt'))}",
-        f"**Fin de venta:** {format_timestamp(item.get('endsAtTimestamp'))}",
-        f"**Último registro de venta:** {format_timestamp(item.get('soldTimestamp'))}",
-    ]
+    release = format_timestamp(item.get(launch_key))
+    visible = format_timestamp(item.get("visibleAtTimestamp"))
+    created = format_timestamp(item.get("createdAt"))
+    updated = format_timestamp(item.get("updatedAt"))
+    ends = format_timestamp(item.get("endsAtTimestamp"))
+    sold = format_timestamp(item.get("soldTimestamp"))
 
     api_description = clean_text(furnidata.get("furni_description"))
-    if api_description:
-        description_lines.append(
-            f"**Descripción exacta de furnidata:** {short(api_description, 1700)}"
-        )
-
-    technical_lines = [
-        f"Tipo: {clean_text(item.get('itemType') or item.get('collection')) or '—'}",
-        f"Rareza: {clean_text(item.get('rarity')) or '—'}",
-        f"Colección: {clean_text(item.get('collection')) or '—'}",
-        f"Set: {clean_text(item.get('set')) or clean_text(item.get('setId')) or '—'}",
-        f"Subtipo: {clean_text(item.get('itemSubType')) or '—'}",
-        f"Product type: {clean_text(item.get('productType')) or '—'}",
-        f"Material: {clean_text(item.get('material')) or '—'}",
-        f"Score: {clean_text(item.get('score')) or '—'}",
-        f"Precio emisión: {item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "Precio emisión: —",
-        f"Acuñados: {clean_text(item.get('minted')) or '—'}",
-        f"Límite: {item.get('mintLimit') if item.get('mintLimit') is not None else '∞'}",
-        f"Estado: {shop_status(item)}",
-        f"Product code: {product_code}",
-        f"Blueprint: {clean_text(item.get('blueprint')) or '—'}",
+    description_parts = [
+        "✨ **NUEVO HABBO COLLECTIBLE**",
+        "",
+        f"📅 **Lanzamiento:** {release}",
+        f"👀 **Visible en tienda:** {visible}",
+        f"🧾 **Creado en catálogo:** {created}",
+        f"🔄 **Última actualización:** {updated}",
+        f"⏳ **Fin de venta:** {ends}",
+        f"💸 **Último registro de venta:** {sold}",
     ]
 
-    if furnidata:
-        technical_lines.extend(
+    if api_description:
+        description_parts.extend(
             [
-                f"Furni ID: {clean_text(furnidata.get('furni_id')) or '—'}",
-                f"Revision: {clean_text(furnidata.get('revision')) or '—'}",
-                f"Classname: {clean_text(furnidata.get('classname')) or '—'}",
-                f"Furniline: {clean_text(furnidata.get('furniline')) or '—'}",
-                f"Categoría furnidata: {clean_text(furnidata.get('category')) or '—'}",
-                f"Offer ID: {clean_text(furnidata.get('offerid')) or '—'}",
+                "",
+                "📝 **Descripción oficial / furnidata**",
+                short(api_description, 1500),
             ]
         )
 
+    technical = [
+        f"🎨 Tipo: {clean_text(item.get('itemType') or item.get('collection')) or '—'}",
+        f"💎 Rareza: {clean_text(item.get('rarity')) or '—'}",
+        f"📚 Colección: {clean_text(item.get('collection')) or '—'}",
+        f"🗂️ Set: {clean_text(item.get('set')) or clean_text(item.get('setId')) or '—'}",
+        f"🧩 Subtipo: {clean_text(item.get('itemSubType')) or '—'}",
+        f"⚙️ Product type: {clean_text(item.get('productType')) or '—'}",
+        f"🧱 Material: {clean_text(item.get('material')) or '—'}",
+        f"🎯 Score: {clean_text(item.get('score')) or '—'}",
+        f"💰 Emisión: {item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "💰 Emisión: —",
+        f"🔢 Acuñados: {clean_text(item.get('minted')) or '—'}",
+        f"📦 Límite: {item.get('mintLimit') if item.get('mintLimit') is not None else '∞'}",
+        f"🚦 Estado: {shop_status(item)}",
+        f"🏷️ Product code: {product_code}",
+        f"🧭 Blueprint: {clean_text(item.get('blueprint')) or '—'}",
+    ]
+
+    if furnidata:
+        technical.extend(
+            [
+                f"🆔 Furni ID: {clean_text(furnidata.get('furni_id')) or '—'}",
+                f"🔬 Revision: {clean_text(furnidata.get('revision')) or '—'}",
+                f"🧬 Classname: {clean_text(furnidata.get('classname')) or '—'}",
+                f"🏷️ Furniline: {clean_text(furnidata.get('furniline')) or '—'}",
+                f"🗃️ Categoría: {clean_text(furnidata.get('category')) or '—'}",
+                f"🔖 Offer ID: {clean_text(furnidata.get('offerid')) or '—'}",
+                f"⭐ Special type: {clean_text(furnidata.get('specialtype')) or '—'}",
+            ]
+        )
+
+    market_url = ""
     if market:
         price = market.get("price")
         usd, eur = usd_eur_from_eth(price, eth_rates)
         if price not in (None, ""):
-            technical_lines.append(f"Mercado: {price} ETH")
+            technical.append(f"📈 Mercado: {price} ETH")
         if usd is not None:
-            technical_lines.append("Mercado ≈ USD: $" + format(usd, ",.2f"))
+            technical.append("💵 Mercado ≈ USD: $" + format(usd, ",.2f"))
         if eur is not None:
-            technical_lines.append("Mercado ≈ EUR: €" + format(eur, ",.2f"))
+            technical.append("💶 Mercado ≈ EUR: €" + format(eur, ",.2f"))
         if market.get("buyType"):
-            technical_lines.append(f"Buy type: {clean_text(market.get('buyType'))}")
+            technical.append(f"🛒 Buy type: {clean_text(market.get('buyType'))}")
         if market.get("type"):
-            technical_lines.append(f"Market type: {clean_text(market.get('type'))}")
+            technical.append(f"🏪 Market type: {clean_text(market.get('type'))}")
         if market.get("link"):
-            market_link = str(market.get("link")).strip()
-            market_link = urllib.parse.quote(market_link, safe=":/?&=#%,+@;")
-            technical_lines.append(f"Enlace mercado: {market_link}")
-
-    description_lines.append(
-        "**Datos técnicos:** " + " · ".join(technical_lines)
-    )
-
-    description = short("\n".join(description_lines), 4050)
+            market_url = urllib.parse.quote(
+                str(market.get("link")).strip(),
+                safe=":/?&=#%,+@;",
+            )
+            technical.append(f"🔗 Mercado: {market_url}")
 
     fields: list[dict[str, Any]] = []
-    add_field(fields, "Tipo", item.get("itemType") or item.get("collection"))
-    add_field(fields, "Rareza", item.get("rarity"))
-    add_field(fields, "Precio emisión", f"{item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "")
-    add_field(fields, "Acuñados", item.get("minted"))
-    add_field(fields, "Estado", shop_status(item))
+
+    fields.append(
+        {
+            "name": "📅 FECHAS",
+            "value": "\n".join(
+                [
+                    f"🟢 Lanzamiento: {release}",
+                    f"👀 Visible: {visible}",
+                    f"🧾 Creado: {created}",
+                    f"🔄 Actualizado: {updated}",
+                    f"⏳ Finaliza: {ends}",
+                    f"💸 Última venta registrada: {sold}",
+                ]
+            ),
+            "inline": False,
+        }
+    )
+
+    fields.append(
+        {
+            "name": "🎨 COLECCIÓN",
+            "value": short(
+                "\n".join(
+                    [
+                        f"🎨 Tipo: {clean_text(item.get('itemType') or item.get('collection')) or '—'}",
+                        f"💎 Rareza: {clean_text(item.get('rarity')) or '—'}",
+                        f"📚 Colección: {clean_text(item.get('collection')) or '—'}",
+                        f"🗂️ Set: {clean_text(item.get('set')) or clean_text(item.get('setId')) or '—'}",
+                        f"🧩 Subtipo: {clean_text(item.get('itemSubType')) or '—'}",
+                    ]
+                ),
+                1000,
+            ),
+            "inline": True,
+        }
+    )
+
+    economy = [
+        f"💰 Emisión: {item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "💰 Emisión: —",
+        f"🔢 Acuñados: {clean_text(item.get('minted')) or '—'}",
+        f"📦 Límite: {item.get('mintLimit') if item.get('mintLimit') is not None else '∞'}",
+        f"🚦 Estado: {shop_status(item)}",
+    ]
     if market and market.get("price") not in (None, ""):
         price = market["price"]
         usd, eur = usd_eur_from_eth(price, eth_rates)
-        add_field(fields, "Precio mercado", f"{price} ETH")
+        economy.append(f"📈 Mercado: {price} ETH")
         if usd is not None:
-            add_field(fields, "≈ USD", "$" + format(usd, ",.2f"))
+            economy.append("💵 ≈ USD: $" + format(usd, ",.2f"))
         if eur is not None:
-            add_field(fields, "≈ EUR", "€" + format(eur, ",.2f"))
+            economy.append("💶 ≈ EUR: €" + format(eur, ",.2f"))
+
+    fields.append(
+        {
+            "name": "💰 ECONOMÍA",
+            "value": "\n".join(economy),
+            "inline": True,
+        }
+    )
+
+    identity = [
+        f"🏷️ Product code: {product_code}",
+        f"🧭 Blueprint: {clean_text(item.get('blueprint')) or '—'}",
+    ]
+    if furnidata:
+        identity.extend(
+            [
+                f"🆔 Furni ID: {clean_text(furnidata.get('furni_id')) or '—'}",
+                f"🔬 Revision: {clean_text(furnidata.get('revision')) or '—'}",
+                f"🧬 Classname: {clean_text(furnidata.get('classname')) or '—'}",
+                f"🏷️ Furniline: {clean_text(furnidata.get('furniline')) or '—'}",
+            ]
+        )
+    fields.append(
+        {
+            "name": "🧬 IDENTIDAD TÉCNICA",
+            "value": short("\n".join(identity), 1000),
+            "inline": False,
+        }
+    )
+
+    extra = [
+        f"⚙️ Product type: {clean_text(item.get('productType')) or '—'}",
+        f"🧱 Material: {clean_text(item.get('material')) or '—'}",
+        f"🎯 Score: {clean_text(item.get('score')) or '—'}",
+    ]
+    if furnidata:
+        extra.extend(
+            [
+                f"🗃️ Categoría furnidata: {clean_text(furnidata.get('category')) or '—'}",
+                f"🔖 Offer ID: {clean_text(furnidata.get('offerid')) or '—'}",
+                f"⭐ Special type: {clean_text(furnidata.get('specialtype')) or '—'}",
+            ]
+        )
+    if market_url:
+        extra.append(f"🔗 Mercado: {market_url}")
+
+    fields.append(
+        {
+            "name": "⚙️ DATOS EXTRA",
+            "value": short("\n".join(extra), 1000),
+            "inline": False,
+        }
+    )
+
+    fields.append(
+        {
+            "name": "📡 RADAR",
+            "value": "\n".join(
+                [
+                    f"🕐 Detectado: {format_timestamp(detected_at)}",
+                    "🌐 Fuente: API oficial de Habbo Collectibles",
+                    "🧩 Enriquecimiento: furnidata oficial",
+                ]
+            ),
+            "inline": False,
+        }
+    )
+
+    if api_description:
+        # Keep the description comfortably below Discord's total embed budget.
+        description = short("\n".join(description_parts), 3300)
+    else:
+        description = short("\n".join(description_parts), 2500)
 
     embed: dict[str, Any] = {
         "title": f"💎 {name}",
         "url": "https://collectibles.habbo.com/shop/?tab=shop",
         "description": description,
         "fields": fields[:10],
+        "color": 0x7C3AED,
         "footer": {
-            "text": "Habbo Furni Radar • detectado " + format_timestamp(detected_at),
+            "text": "✨ Habbo Furni Radar • fuente oficial • Europe/Madrid + UTC",
         },
         "timestamp": detected_at,
     }
