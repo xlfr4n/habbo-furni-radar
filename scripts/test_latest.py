@@ -15,6 +15,7 @@ from radar import (
     fetch_shop_items,
     fetch_shop_prices,
     filter_shop_items,
+    is_visible_release,
     item_key,
     send_discord,
 )
@@ -26,7 +27,11 @@ def main() -> int:
         raise SystemExit("DISCORD_WEBHOOK_URL no está configurado.")
 
     items, digest = fetch_shop_items()
-    current = filter_shop_items(items)
+    current = [
+        item
+        for item in filter_shop_items(items)
+        if is_visible_release(item)
+    ]
 
     current.sort(
         key=lambda item: (
