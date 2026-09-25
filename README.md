@@ -226,9 +226,9 @@ Para reducir este riesgo, el proyecto incluye `/.github/workflows/heartbeat.yml`
 
 El heartbeat realiza periódicamente una pequeña actualización automática del repositorio.
 
-Además, el workflow de producción dispone de un mecanismo keepalive para reactivar la programación cuando sea necesario.
+El heartbeat es parte del propio repositorio y genera actividad periódica de forma automática.
 
-Así no dependemos de que tengas que entrar periódicamente al proyecto para mantenerlo activo.
+Así reducimos el riesgo de que una instalación pública quede desactivada por inactividad sin que tengas que entrar periódicamente al proyecto.
 
 ## 💾 Deduplicación y estado
 
@@ -263,7 +263,7 @@ Esto evita llenar el historial de Git con commits innecesarios.
 ✅ separación de mensajes para evitar ráfagas excesivas
 ✅ tests automatizados
 ✅ heartbeat anti-inactividad
-✅ keepalive
+✅ heartbeat anti-inactividad
 
 Discord documenta límites para embeds y webhooks, incluyendo descripción de 2.048 caracteres, hasta 25 fields, 6.000 caracteres por embed y límite de mensajes por webhook:
 
