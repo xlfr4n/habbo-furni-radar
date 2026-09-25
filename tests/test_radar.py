@@ -88,7 +88,7 @@ class RadarTests(unittest.TestCase):
             {"usd": 2500.0, "eur": 2100.0},
             "2026-09-25T10:00:00.000Z",
         )
-        self.assertLessEqual(len(embed.get("description", "")), 4096)
+        self.assertLessEqual(len(embed.get("description", "")), 2048)
         total = len(embed.get("title", "")) + len(embed.get("description", ""))
         total += len(embed.get("footer", {}).get("text", ""))
         for field in embed.get("fields", []):
@@ -97,6 +97,11 @@ class RadarTests(unittest.TestCase):
             total += len(field["name"]) + len(field["value"])
         self.assertLessEqual(total, 6000)
         self.assertTrue(embed["image"]["url"].startswith("https://"))
+        self.assertTrue(embed["title"].startswith("🆕✨"))
+        self.assertIn("🚀 **Lanzamiento:**", embed["description"])
+        self.assertIn("### 🔎 Identificación", embed["description"])
+        self.assertIn("### 🔗 Mercado", embed["description"])
+        self.assertIn("color", embed)
         self.assertEqual(
             embed["url"],
             "https://collectibles.habbo.com/shop/?tab=shop",
