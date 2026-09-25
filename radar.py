@@ -380,6 +380,10 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
             technical_lines.append(f"Buy type: {clean_text(market.get('buyType'))}")
         if market.get("type"):
             technical_lines.append(f"Market type: {clean_text(market.get('type'))}")
+        if market.get("link"):
+            market_link = str(market.get("link")).strip()
+            market_link = urllib.parse.quote(market_link, safe=":/?&=#%,+@;")
+            technical_lines.append(f"Enlace mercado: {market_link}")
 
     description_lines.append(
         "**Datos técnicos:** " + " · ".join(technical_lines)
@@ -404,7 +408,7 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
 
     embed: dict[str, Any] = {
         "title": f"💎 {name}",
-        "url": market.get("link") if market and market.get("link") else "https://collectibles.habbo.com/shop/?tab=shop",
+        "url": "https://collectibles.habbo.com/shop/?tab=shop",
         "description": description,
         "fields": fields[:10],
         "footer": {
