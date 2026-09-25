@@ -32,7 +32,7 @@ jobs:
 
       - name: Check official Collectibles Shop
         env:
-          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python radar.py
 
       - name: Commit updated radar state
