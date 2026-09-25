@@ -34,12 +34,6 @@ async function sendDiscord(items, observedApis) {
     ? observedApis.slice(0, 10).map((u) => u.slice(0, 180)).join("\n")
     : "No se observaron requests XHR/fetch.";
 
-  embeds.push({
-    title: "🔎 Endpoints observados",
-    description: "```text\n" + apiText.slice(0, 3900) + "\n```",
-    footer: { text: "Esto nos ayudará a identificar la API interna de la tienda." },
-  });
-
   const payload = {
     username: "Habbo Furni Radar",
     content: "🧪 **Prueba:** 10 elementos del orden **Newest** de la tienda oficial de Habbo Collectibles, con imagen.",
@@ -58,6 +52,28 @@ async function sendDiscord(items, observedApis) {
 
   if (!response.ok) {
     throw new Error("Discord devolvió HTTP " + response.status);
+  }
+
+  const diagnostics = [
+    "🔎 **Endpoints XHR/fetch observados**",
+    ...(observedApis.length ? observedApis : ["Ninguno observado."]),
+  ].join("\n").slice(0, 1900);
+
+  const diagnosticResponse = await fetch(WEBHOOK, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "user-agent": "habbo-furni-radar/1.0",
+    },
+    body: JSON.stringify({
+      username: "Habbo Furni Radar",
+      content: diagnostics,
+      allowed_mentions: { parse: [] },
+    }),
+  });
+
+  if (!diagnosticResponse.ok) {
+    throw new Error("Discord diagnóstico devolvió HTTP " + diagnosticResponse.status);
   }
 }
 
@@ -117,7 +133,7 @@ async function sendDiscord(items, observedApis) {
     candidates.push({
       name: clean,
       image: img.src,
-      href: "",
+      href: img.closest("a")?.href || "",
       text: clean,
     });
   }
