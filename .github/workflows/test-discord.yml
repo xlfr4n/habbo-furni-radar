@@ -1,4 +1,4 @@
-name: Test Official Collectibles Shop
+name: Test Latest Collectibles
 
 on:
   workflow_dispatch:
@@ -7,25 +7,21 @@ permissions:
   contents: read
 
 jobs:
-  test-official-shop:
+  test-latest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
-          node-version: "22"
+          python-version: "3.12"
 
-      - name: Install Playwright
-        run: npm install --no-save playwright
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Probe official Collectibles Shop and notify Discord
+      - name: Send latest 10 official releases
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
-        run: node scripts/probe_official_shop.js
+          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python scripts/test_latest.py
