@@ -30,22 +30,20 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s tests -v
 
-      - name: Check Habbo for new furni
-        id: radar
+      - name: Check official Collectibles Shop
         env:
-          HABBO_FURNIDATA_URL: https://www.habbo.es/gamedata/furnidata_xml/1
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python radar.py
 
-      - name: Commit updated state
+      - name: Commit updated radar state
         run: |
-          if [[ -z "$(git status --porcelain -- state/known_furni.json)" ]]; then
-            echo "No hay cambios de estado que guardar."
+          if [[ -z "$(git status --porcelain -- state/known_shop_items.json)" ]]; then
+            echo "No hay cambios de estado."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/known_furni.json
-          git commit -m "chore: update furni radar state [skip ci]"
+          git add state/known_shop_items.json
+          git commit -m "chore: update shop radar state [skip ci]"
           git push
