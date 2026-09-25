@@ -102,20 +102,21 @@ async function sendDiscord(items, observedApis) {
 
   await page.waitForTimeout(10000);
 
-  const state = await page.evaluate(() => ({
-    title: document.title,
-    bodyText: document.body.innerText.slice(0, 16000),
-    images: [...document.querySelectorAll("img")].map((img) => ({
+  const state = await page.evaluate(() => {
+    const images = [...document.querySelectorAll("img")].map((img) => ({
       alt: img.getAttribute("alt") || "",
       src: img.currentSrc || img.src || "",
       width: img.naturalWidth || 0,
       height: img.naturalHeight || 0,
-    })),
-    links: [...document.querySelectorAll("a")].map((a) => ({
-      text: (a.innerText || "").trim(),
-      href: a.href || "",
-    })),
-  }));
+      href: img.closest("a")?.href || "",
+    }));
+
+    return {
+      title: document.title,
+      bodyText: document.body.innerText.slice(0, 16000),
+      images,
+    };
+  });
 
   console.log("PAGE TITLE:", state.title);
   console.log("\n=== BODY PREVIEW ===\n");
@@ -133,7 +134,7 @@ async function sendDiscord(items, observedApis) {
     candidates.push({
       name: clean,
       image: img.src,
-      href: img.closest("a")?.href || "",
+      href: img.href,
       text: clean,
     });
   }
