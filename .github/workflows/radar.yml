@@ -2,12 +2,9 @@ name: Habbo Furni Radar
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "1-59/5 * * * *"
       timezone: "Europe/Madrid"
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 concurrency:
   group: habbo-furni-radar
@@ -15,31 +12,35 @@ concurrency:
 
 jobs:
   radar:
+    name: Scan official Habbo Shop
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 4
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout
+      - name: 📥 Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
-      - name: Setup Python
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
-      - name: Run tests
+      - name: 🧪 Run tests
         run: python -m unittest discover -s tests -v
 
-      - name: Check official Collectibles Shop
+      - name: 📡 Check official Collectibles Shop
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python radar.py
 
-      - name: Commit updated radar state
+      - name: 💾 Commit radar state only when it changed
         run: |
           if [[ -z "$(git status --porcelain -- state/known_shop_items.json)" ]]; then
-            echo "No hay cambios de estado."
+            echo "No ha aparecido ningún Collectible nuevo."
             exit 0
           fi
 
@@ -48,3 +49,15 @@ jobs:
           git add state/known_shop_items.json
           git commit -m "chore: update shop radar state [skip ci]"
           git push
+
+  keepalive:
+    name: ♾️ Keep scheduled workflow active
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      actions: write
+
+    steps:
+      - name: ♾️ Re-enable scheduled workflow if necessary
+        uses: liskin/gh-workflow-keepalive@f72ff1a1336129f29bf0166c0fd0ca6cf1bcb38c
