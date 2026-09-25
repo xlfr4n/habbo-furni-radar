@@ -1,556 +1,429 @@
-# 💎 Habbo Furni Radar
+# 🏠 Habbo Furni Radar
 
-![Habbo Furni Radar](https://img.shields.io/badge/Habbo-Collectibles-7C3AED?style=for-the-badge)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Autom%C3%A1tico-24292f?style=for-the-badge)
+> 📡 **Detector automático de nuevos Habbo Collectibles → Discord**
+>
+> 🕐 Consulta la tienda oficial cada 5 minutos · 🖼️ imagen oficial · 🧾 metadatos exactos · 🕒 timestamps exactos · 💰 mercado cuando existe.
+
+![Habbo Furni Radar](https://img.shields.io/badge/Habbo-Furni%20Radar-ff5f57?style=for-the-badge)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Automatic-2ea44f?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge)
 
-**Radar automático de Habbo Collectibles para Discord.**
+## ✨ Qué hace
 
-Detecta nuevos lanzamientos directamente desde la API oficial de la tienda de Habbo, enriquece cada objeto con datos oficiales de furnidata y publica un aviso visual completo en tu canal de Discord.
+Habbo Furni Radar vigila la **API pública que utiliza la tienda oficial de Habbo Collectibles** y publica automáticamente en Discord cada nuevo Collectible que aparece.
 
-> 🎯 Objetivo: configurarlo una vez y dejarlo funcionando automáticamente sin mantener un PC, VPS, base de datos ni servicio propio.
+No necesita servidor propio, VPS, Supabase, Vercel ni un ordenador encendido.
 
----
+El primer arranque realiza un **bootstrap silencioso**: registra el catálogo existente y no manda cientos de avisos históricos. A partir de ese momento solo se notifican novedades.
 
-## ✨ ¿Qué hace?
+## 📡 Fuente de verdad
 
-Cada vez que aparece un Collectible nuevo en la tienda oficial, el radar:
-
-1. 🔎 Consulta la API oficial de Habbo.
-2. 🆕 Detecta nuevos productCode.
-3. 🛡️ Ignora tokens internos y elementos ocultos/staging.
-4. 📚 Enriquece el elemento con furnidata oficial.
-5. 💰 Consulta el precio disponible en la API de Shop.
-6. 💵 Calcula la equivalencia aproximada en USD/EUR si hay cotización ETH disponible.
-7. 🖼️ Añade la imagen oficial.
-8. 📅 Muestra las fechas y horas exactas disponibles.
-9. 📡 Publica un mensaje por Collectible en Discord.
-10. 💾 Guarda el productCode para no volver a avisar del mismo lanzamiento.
-
----
-
-## 🎨 ¿Cómo queda el aviso?
-
-Cada alerta tiene un embed visual con emojis y secciones separadas.
-
-### 📅 Fechas
-
-- 🟢 Lanzamiento exacto
-- 👀 Visible en tienda
-- 🧾 Creado en catálogo
-- 🔄 Última actualización de la API
-- ⏳ Fin de venta
-- 💸 Último registro de venta
-
-Las horas se muestran en Europe/Madrid y también incluyen la referencia UTC.
-
-### 📝 Descripción
-
-Cuando furnidata contiene una descripción, se incluye como:
-
-**Descripción oficial / furnidata**
-
-sin inventar ni reinterpretar el texto.
-
-### 🎨 Colección
-
-- 🎨 Tipo
-- 💎 Rareza
-- 📚 Colección
-- 🗂️ Set
-- 🧩 Subtipo
-
-### 💰 Economía
-
-- 💰 Precio de emisión en Emeralds
-- 🔢 Cantidad acuñada
-- 📦 Límite
-- 🚦 Estado
-- 📈 Precio de mercado en ETH
-- 💵 Equivalencia USD
-- 💶 Equivalencia EUR
-
-### 🧬 Identidad técnica
-
-- 🏷️ Product code
-- 🧭 Blueprint
-- 🆔 Furni ID
-- 🔬 Revision
-- 🧬 Classname
-- 🏷️ Furniline
-
-### ⚙️ Datos extra
-
-- Product type
-- Material
-- Score
-- Categoría furnidata
-- Offer ID
-- Special type
-- Enlace de mercado cuando la API lo proporciona
-
-### 📡 Radar
-
-- 🕐 Momento exacto de detección
-- 🌐 Fuente oficial de Habbo Collectibles
-- 🧩 Fuente secundaria de enriquecimiento
-
----
-
-# 🚀 INSTALACIÓN EN TU PROPIO DISCORD
-
-La replicación está pensada para ser sencilla.
-
-## 1. 🍴 Haz un Fork
-
-Abre el repositorio y pulsa **Fork**.
-
-Esto crea una copia completamente independiente en tu cuenta de GitHub.
-
-También puedes clonar el repositorio directamente y subirlo a uno nuevo.
-
----
-
-## 2. 💬 Crea el canal de Discord
-
-En tu servidor crea un canal de texto, por ejemplo:
-
-**#new-furni**
-
-Puedes llamarlo como quieras.
-
-El webhook de Discord publicará directamente en ese canal.
-
----
-
-## 3. 🔗 Crea el Webhook
-
-En Discord:
-
-**Ajustes del servidor → Integraciones → Webhooks → Crear webhook**
-
-Discord permite crear el webhook, elegir el canal donde publicará y copiar su URL.
-
-Documentación oficial:
-https://support.discord.com/hc/es/articles/228383668-Introducci%C3%B3n-a-los-webhooks
-
-Recomendación:
-
-**Nombre:** Habbo Furni Radar
-
-Después pulsa **Copiar URL del webhook**.
-
-⚠️ No publiques esa URL en GitHub, README, capturas ni commits.
-
----
-
-## 4. 🔐 Guarda el Webhook como secreto
-
-En tu repositorio de GitHub:
-
-**Settings → Secrets and variables → Actions**
-
-Después:
-
-**New repository secret**
-
-Nombre exacto:
-
-DISCORD_WEBHOOK_URL
-
-Valor:
-
-TU_URL_DEL_WEBHOOK
-
-Guarda el secreto.
-
-GitHub Actions lo recibirá automáticamente y el código nunca necesita contener la URL real.
-
----
-
-## 5. ✅ Comprueba GitHub Actions
-
-Ve a:
-
-**Actions**
-
-Y comprueba que los workflows están habilitados.
-
-El proyecto incluye:
-
-### 💎 Habbo Furni Radar
-
-Es el proceso de producción.
-
-### 🧪 Test Latest Collectibles
-
-Es una prueba manual que manda los 10 Collectibles actuales más recientes a Discord.
-
----
-
-# 🤖 DESPUÉS DE CONFIGURARLO
-
-No tienes que ejecutar Python localmente.
-
-No necesitas:
-
-- 💻 PC encendido
-- 🖥️ servidor local
-- ☁️ VPS
-- 🗄️ Supabase
-- ▲ Vercel
-- 🐳 Docker
-- 📦 npm
-- 🌐 navegador automatizado
-
-GitHub Actions hace todo el trabajo.
-
-El radar se ejecuta automáticamente cada 5 minutos. GitHub permite actualmente un intervalo mínimo de 5 minutos para workflows programados y permite definir una zona horaria IANA como Europe/Madrid.
-
-Documentación oficial:
-https://docs.github.com/es/actions/reference/workflows-and-actions/workflow-syntax
-
----
-
-# 🧠 PRIMERA EJECUCIÓN
-
-La primera vez no se envían cientos de avisos históricos.
-
-El radar hace un **bootstrap silencioso**:
-
-catálogo actual → guardar productCodes → no enviar mensajes
-
-Después:
-
-nuevo productCode → alerta Discord
-
-Esto evita inundar el canal al instalar el proyecto por primera vez.
-
----
-
-# 🛡️ DUPLICADOS
-
-El radar guarda una memoria pequeña en:
-
-state/known_shop_items.json
-
-La clave es el productCode.
-
-Cuando uno ya está registrado, no vuelve a generar una alerta histórica.
-
----
-
-# 🌐 FUENTES DE DATOS
-
-## 🥇 Fuente principal: Shop oficial
+🏪 **Shop oficial:**
 
 https://collectibles.habbo.com/api/shop/items/?walletAddress=
 
-Es la fuente que decide si algo es un lanzamiento de tienda.
+La detección de novedades utiliza `productCode` en la Shop oficial.
 
-Esto es importante porque furnidata puede contener assets preparados antes de que salgan a la venta.
+Esto separa:
 
-Por eso:
+🏪 **lanzamientos reales de la tienda**
+🧩 **assets preparados con antelación en furnidata**
 
-**furnidata ≠ detector de lanzamientos**
+### 🧠 Por qué
 
----
+`furnidata` puede contener assets antes de que el objeto esté realmente publicado en la tienda. Por eso:
 
-## 🥈 Furnidata oficial
+**Shop API = detector del lanzamiento**  
+**Furnidata = enriquecimiento de información**
 
-https://www.habbo.es/gamedata/furnidata_xml/1
+## 🎨 Alertas de Discord
 
-Se utiliza para enriquecer:
+Cada Collectible se envía como **un mensaje individual** para que el canal sea limpio y fácil de leer.
 
-- 🆔 ID
-- 🔬 revision
-- 🧬 classname
-- 🏷️ furniline
-- 🗃️ categoría
-- 🔖 offer ID
-- ⭐ special type
-- 📝 descripción
+El embed incluye, cuando las fuentes lo proporcionan:
 
-Si furnidata no responde, el radar no inventa datos: simplemente continúa con la información disponible de la Shop API.
+✨ nombre
+🎨 tipo
+💎 rareza
+🗂️ colección y set
+🧵 subtipo
+🛠️ product type
+📊 score
+💰 coste de emisión en Emeralds
+🪙 cantidad acuñada
+♾️ límite de acuñación
+📍 estado
+🚀 fecha y hora exactas de lanzamiento
+👁️ fecha y hora exactas de visibilidad
+📦 fecha y hora exactas de creación
+🔄 fecha y hora exactas de actualización
+🏁 fecha y hora exactas de fin
+💸 fecha y hora exactas del último registro de venta
+📝 descripción disponible en furnidata
+🔑 productCode
+🧩 blueprint
+🪑 Furni ID
+🔢 revision
+🏷️ classname
+📋 furniline
+🎁 Offer ID
+📈 precio de mercado en ETH
+💵 equivalencia aproximada en USD
+💶 equivalencia aproximada en EUR
+🔗 enlace de mercado
+🖼️ imagen oficial
 
----
+El color del embed cambia según la rareza cuando existe información de rareza:
 
-## 🥉 Precios de Shop
+⚪ Common · 🟢 Uncommon · 🔵 Rare · 🟣 Epic · 🟡 Legendary
 
-https://collectibles.habbo.com/api/shop/prices/?productCodes=...
+## 🕒 Fechas y horas
 
-Se utilizan cuando están disponibles.
-
-Si esta API devuelve un 429, un error temporal o deja de estar disponible, el radar no deja de funcionar: continúa enviando la alerta sin esa parte opcional del precio.
-
----
-
-## 💱 Conversión ETH → USD/EUR
-
-Cuando hay precio ETH y cotización disponible, se calcula:
-
-ETH × cotización actual = USD/EUR aproximado
-
-La conversión es informativa y corresponde al momento de la consulta.
-
----
-
-# 🖼️ IMÁGENES
-
-Las rutas de imagen relativas de la Shop API se resuelven contra los assets oficiales de Habbo/NFT.
-
-Por eso el embed puede mostrar automáticamente la imagen del Collectible sin que tengas que subir imágenes manualmente.
-
----
-
-# ⚙️ ARQUITECTURA
-
-API oficial Shop
-
-↓
-
-detección de nuevo productCode
-
-↓
-
-furnidata oficial
-
-↓
-
-precio Shop + cotización ETH
-
-↓
-
-embed Discord
-
-↓
-
-state/known_shop_items.json
-
-Todo corre desde GitHub Actions.
-
----
-
-# ⏱️ FRECUENCIA
-
-Producción:
-
-**cada 5 minutos**
+Las fechas se muestran en **Europe/Madrid** y también conservan la referencia UTC.
 
 Ejemplo:
 
-- 12:00
-- 12:05
-- 12:10
-- 12:15
-- 12:20
+`🚀 Lanzamiento: 25/09/2026 10:23:00 CEST · UTC 08:23:00Z`
 
-GitHub documenta que el intervalo mínimo actual para workflows programados es de 5 minutos y que los workflows programados se ejecutan sobre el commit más reciente de la rama por defecto.
+No se redondean las horas originales recibidas de Habbo.
 
-Documentación oficial:
-https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+## 📝 Furnidata
 
-⚠️ schedule depende de la infraestructura de GitHub y puede sufrir retrasos puntuales. No es un reloj en tiempo real con garantía de latencia.
+Fuente secundaria:
 
----
+https://www.habbo.es/gamedata/furnidata_xml/1
 
-# ❤️ AUTOMANTENIMIENTO
+Se utiliza para enriquecer los avisos con:
 
-El repositorio incorpora un pequeño **heartbeat automático** periódico.
+🔢 Furni ID
+🔄 revision
+🏷️ classname
+📋 furniline
+🎁 Offer ID
+🗂️ categoría
+📝 descripción
 
-Su función es mantener actividad en el repositorio y reducir el riesgo de que un workflow programado de un repositorio público sea desactivado tras un periodo prolongado sin actividad.
+Si furnidata no está disponible en un ciclo, el radar no se detiene: envía la alerta con los datos disponibles de la Shop.
 
-GitHub documenta que los workflows programados de repositorios públicos pueden deshabilitarse automáticamente después de 60 días sin actividad del repositorio.
+## 💹 Mercado y precios
 
-Documentación oficial:
+Fuente:
+
+https://collectibles.habbo.com/api/shop/prices/?productCodes=...
+
+Cuando existe información, el radar muestra:
+
+📈 precio en ETH
+💵 aproximadamente USD
+💶 aproximadamente EUR
+🔗 enlace de mercado
+
+La conversión utiliza la cotización de ETH consultada durante ese ciclo.
+
+Un HTTP 429 o una caída temporal del endpoint de precios **no bloquea la alerta**.
+
+## 🚀 Instalarlo en tu propio Discord
+
+### 1️⃣ Crea el canal
+
+Crea un canal como `#new-furni` en el servidor donde quieras recibir las alertas.
+
+### 2️⃣ Crea un Webhook
+
+En Discord:
+
+**Servidor → Ajustes del servidor → Integraciones → Webhooks → Nuevo webhook**
+
+Selecciona el canal y copia la URL del webhook.
+
+🔐 **No compartas esa URL.** Un webhook permite publicar mensajes en el canal.
+
+### 3️⃣ Crea tu copia del proyecto
+
+La opción sencilla es hacer **Fork** de este repositorio.
+
+También puedes crear una copia propia basada en estos archivos.
+
+### 4️⃣ Guarda el webhook como Secret
+
+En GitHub:
+
+**Settings → Secrets and variables → Actions → New repository secret**
+
+Nombre exacto:
+
+`DISCORD_WEBHOOK_URL`
+
+Valor:
+
+**la URL privada de tu webhook de Discord**
+
+Nunca lo pongas en código, README, issues o commits.
+
+### 5️⃣ Activa GitHub Actions
+
+Ve a:
+
+**Actions → Habbo Furni Radar**
+
+GitHub debe permitir que el workflow se ejecute.
+
+En un fork de un repositorio público, los workflows programados pueden quedar desactivados inicialmente y deben habilitarse desde Actions.
+
+Más información:
+
 https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
 
-El heartbeat no publica nada en Discord.
+### 6️⃣ Primera ejecución
 
-Solo mantiene un timestamp técnico en:
+Pulsa:
 
-state/heartbeat.json
+**Actions → Habbo Furni Radar → Run workflow**
 
----
+La primera ejecución hace el bootstrap silencioso y registra el catálogo actual.
 
-# 🧪 PRUEBA MANUAL
+### 7️⃣ ✅ Listo
 
-Si quieres comprobar el Discord cuando quieras:
+Después de esa primera ejecución no necesitas lanzar el radar manualmente.
+
+Queda funcionando automáticamente con GitHub Actions.
+
+## ♾️ Automatización continua
+
+La arquitectura es:
+
+~~~text
+GitHub Actions
+      ↓
+cada 5 minutos
+      ↓
+API oficial Habbo Shop
+      ↓
+¿nuevo productCode?
+      ↓
+¿ya está visible?
+      ↓
+Furnidata + precios
+      ↓
+Embed Discord
+      ↓
+state/known_shop_items.json
+~~~
+
+El workflow utiliza una franja de 5 minutos desplazada del minuto 00 para reducir el riesgo de retrasos durante picos de carga de GitHub.
+
+GitHub documenta que el intervalo mínimo de un workflow programado es de 5 minutos y permite zonas horarias IANA como `Europe/Madrid`:
+
+https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+
+## ❤️ Protección frente a la inactividad
+
+GitHub puede desactivar workflows programados de repositorios públicos cuando no ha habido actividad del repositorio durante 60 días.
+
+https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+
+Para reducir este riesgo, el proyecto incluye `/.github/workflows/heartbeat.yml`.
+
+El heartbeat realiza periódicamente una pequeña actualización automática del repositorio.
+
+Además, el workflow de producción dispone de un mecanismo keepalive para reactivar la programación cuando sea necesario.
+
+Así no dependemos de que tengas que entrar periódicamente al proyecto para mantenerlo activo.
+
+## 💾 Deduplicación y estado
+
+La memoria persistente está en:
+
+`state/known_shop_items.json`
+
+La clave de deduplicación es `productCode`.
+
+Si el mismo Collectible aparece en 100 comprobaciones consecutivas:
+
+**se notifica una sola vez.**
+
+El radar tampoco genera un commit cada 5 minutos. El estado solo cambia cuando aparece un Collectible nuevo o durante el bootstrap inicial.
+
+Esto evita llenar el historial de Git con commits innecesarios.
+
+## 🛡️ Robustez
+
+✅ reintentos de red
+✅ reintentos ante HTTP 429
+✅ reintentos ante HTTP 5xx
+✅ respeto de `Retry-After` cuando existe
+✅ timeout del workflow
+✅ deduplicación por `productCode`
+✅ bootstrap silencioso
+✅ exclusión de tokens Emerald
+✅ precios como enriquecimiento opcional
+✅ imágenes oficiales
+✅ cronología exacta
+✅ límites seguros para Discord
+✅ separación de mensajes para evitar ráfagas excesivas
+✅ tests automatizados
+✅ heartbeat anti-inactividad
+✅ keepalive
+
+Discord documenta límites para embeds y webhooks, incluyendo descripción de 2.048 caracteres, hasta 25 fields, 6.000 caracteres por embed y límite de mensajes por webhook:
+
+https://discord.com/safety/using-webhooks-and-embeds
+
+## 🧪 Prueba manual
+
+Existe un workflow separado:
 
 **Actions → Test Latest Collectibles → Run workflow**
 
-La prueba:
+Envía los **10 Collectibles actualmente visibles más recientes**, ordenados:
 
-- obtiene los lanzamientos actuales
-- excluye los futuros
-- toma los 10 más recientes
-- utiliza el mismo formato visual de producción
-- envía un Collectible por mensaje
+⏪ más antiguo → más reciente ⏩
 
-No cambia la memoria de producción del radar.
+La prueba no modifica el estado del radar.
 
----
+## 🧩 Estructura
 
-# 🧰 ARCHIVOS
+~~~text
+habbo-furni-radar/
+├── .github/
+│   └── workflows/
+│       ├── radar.yml
+│       ├── heartbeat.yml
+│       └── test-discord.yml
+├── scripts/
+│   └── test_latest.py
+├── state/
+│   └── known_shop_items.json
+├── tests/
+│   └── test_radar.py
+├── radar.py
+├── README.md
+└── LICENSE
+~~~
 
-radar.py
+### 📡 radar.py
 
-Motor principal del radar.
+Detector principal, enriquecimiento, imágenes, precios y publicación en Discord.
 
-.github/workflows/radar.yml
+### ⏰ radar.yml
 
-Automatización de producción cada 5 minutos.
+Workflow automático cada 5 minutos.
 
-.github/workflows/test-discord.yml
+### ❤️ heartbeat.yml
 
-Prueba manual del Discord.
+Actividad periódica automática para reducir el riesgo de desactivación por inactividad.
 
-.github/workflows/heartbeat.yml
+### 🧪 test-discord.yml
 
-Heartbeat técnico periódico.
+Prueba manual del formato real en Discord.
 
-scripts/test_latest.py
+### 🔬 test_latest.py
 
-Generador de la prueba de los 10 últimos Collectibles.
+Envía los 10 últimos Collectibles visibles para comprobar el aspecto del canal.
 
-tests/test_radar.py
+### 💾 known_shop_items.json
 
-Pruebas automatizadas.
+Memoria de los `productCode` ya notificados.
 
-state/known_shop_items.json
+## 🔐 Seguridad
 
-Memoria de lanzamientos ya procesados.
+El proyecto no requiere:
 
-state/heartbeat.json
+❌ wallet
+❌ private key
+❌ seed phrase
+❌ Supabase
+❌ Vercel
+❌ VPS
+❌ ordenador encendido
 
-Marca temporal técnica del heartbeat.
+La única credencial utilizada para publicar en Discord es `DISCORD_WEBHOOK_URL` y se almacena en **GitHub Actions Secrets**.
 
----
+## 🧑‍💻 Desarrollo local
 
-# 🧪 PRUEBAS AUTOMÁTICAS
+El proyecto usa únicamente la librería estándar de Python 3.12.
 
-Antes de ejecutar producción, GitHub Actions ejecuta la suite de pruebas.
+No necesita `requirements.txt`.
 
-Actualmente cubre:
+### Ejecutar tests
 
-- 🧩 parser de furnidata
-- 🚫 exclusión de tokens
-- 🖼️ resolución de imágenes
-- 📅 conversión exacta de timestamps
-- 🚦 estados de Shop
-- 🛡️ límites estructurales de Discord
-- 🔗 URL principal del embed
-- 📏 tamaño máximo del embed
+~~~bash
+python -m unittest discover -s tests -v
+~~~
 
-La suite debe pasar antes de consultar el Shop en el workflow de producción.
+### Probar el radar sin enviar mensajes
 
----
+~~~bash
+python radar.py --dry-run
+~~~
 
-# 🔐 SEGURIDAD
+### Probar Discord localmente
 
-Nunca guardes el webhook dentro del código.
+Linux/macOS:
 
-El lugar correcto es:
+~~~bash
+export DISCORD_WEBHOOK_URL="https://tu-webhook"
+python scripts/test_latest.py
+~~~
 
-**GitHub Secrets → Actions → DISCORD_WEBHOOK_URL**
+Windows PowerShell:
 
-Si compartes accidentalmente un webhook, elimínalo desde Discord y genera uno nuevo.
+~~~powershell
+$env:DISCORD_WEBHOOK_URL="https://tu-webhook"
+python scripts/test_latest.py
+~~~
 
----
+## 🏪 Fuentes
 
-# 💸 COSTE
+### 🏪 Habbo Collectibles Shop
+https://collectibles.habbo.com/api/shop/items/?walletAddress=
 
-No necesitas contratar infraestructura propia.
+### 💹 Habbo Collectibles Prices
+https://collectibles.habbo.com/api/shop/prices/?productCodes=
 
-GitHub ofrece runners estándar hospedados gratuitamente e ilimitados para repositorios públicos.
+### 🪑 Habbo Furnidata
+https://www.habbo.es/gamedata/furnidata_xml/1
 
-Documentación oficial:
-https://docs.github.com/en/actions/reference/runners/github-hosted-runners
+### 💱 CoinGecko
+https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,eur
 
-El radar utiliza:
+## ✅ Estado actual
 
-- GitHub Actions
-- Python estándar
-- API de Habbo
-- Webhook de Discord
+✅ detector por Shop API oficial
+✅ bootstrap inicial sin spam histórico
+✅ 493 Collectibles registrados en el bootstrap inicial
+✅ deduplicación activa
+✅ Discord probado con mensajes reales
+✅ 10/10 mensajes de prueba enviados correctamente
+✅ embed validado contra las restricciones de Discord
+✅ imagen oficial
+✅ timestamps exactos
+✅ descripción de furnidata
+✅ datos técnicos
+✅ precios ETH/USD/EUR cuando están disponibles
+✅ tests automatizados
+✅ commits de estado solo cuando hay cambios
+✅ heartbeat
+✅ keepalive
+✅ ejecución automática
 
-No necesita un servidor permanente.
+## ⚠️ Sobre “para siempre”
 
----
+El proyecto está diseñado para requerir **cero mantenimiento manual en condiciones normales**.
 
-# ✅ CONFIGURACIÓN FINAL
+No existe una garantía literal de funcionamiento para siempre cuando intervienen servicios externos: GitHub, Discord, Habbo o sus APIs pueden cambiar sus políticas, endpoints, límites o disponibilidad.
 
-Una vez hecho:
+La implementación actual automatiza detección, enriquecimiento, imagen, mercado, Discord, estado, actividad y programación.
 
-**Fork → Webhook → Secret → Actions**
+## 📚 Documentación oficial
 
-y listo.
+### GitHub Actions
+https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
+https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 
-A partir de ahí:
+### Discord Webhooks / Embeds
+https://discord.com/safety/using-webhooks-and-embeds
 
-🕐 GitHub ejecuta el radar  
-🔎 Habbo se consulta automáticamente  
-🆕 Los nuevos Collectibles se detectan  
-🖼️ La imagen se añade automáticamente  
-📅 Las fechas exactas se muestran automáticamente  
-💰 Los precios disponibles se añaden automáticamente  
-💬 Discord recibe el aviso automáticamente  
-💾 El productCode queda registrado para evitar duplicados
+## 📜 Licencia
 
----
-
-# ❓ SOLUCIÓN DE PROBLEMAS
-
-### ❌ No llega ningún mensaje
-
-Comprueba:
-
-1. Que DISCORD_WEBHOOK_URL existe en GitHub Secrets.
-2. Que el workflow está habilitado.
-3. Que el webhook sigue existiendo en Discord.
-4. Que el webhook apunta al canal correcto.
-
-Discord permite administrar, crear, editar y eliminar webhooks desde la página de Integraciones del servidor.
-
-Documentación oficial:
-https://support.discord.com/hc/es/articles/360045093012-P%C3%A1gina-de-integraciones-del-servidor
-
-### ❌ No aparece el precio
-
-No significa que el radar haya fallado.
-
-El precio es un dato opcional y puede no estar disponible temporalmente.
-
-### ❌ Aparece un asset en furnidata pero no hay alerta
-
-Es correcto.
-
-El radar distingue entre:
-
-**asset preparado**
-
-y
-
-**lanzamiento real en Shop**.
-
----
-
-# 🏁 ESTADO DEL PROYECTO
-
-**Producción:** ✅  
-**Detección automática:** ✅  
-**Cada 5 minutos:** ✅  
-**Discord webhook:** ✅  
-**Imágenes:** ✅  
-**Timestamps exactos:** ✅  
-**Furnidata:** ✅  
-**Precios opcionales:** ✅  
-**Prevención de duplicados:** ✅  
-**Pruebas automáticas:** ✅  
-**Heartbeat:** ✅  
-**Sin PC encendido:** ✅  
-**Sin VPS:** ✅  
-**Sin Supabase:** ✅  
-**Sin Vercel:** ✅
-
-> 💜 Diseñado para instalarse una vez y dejarlo funcionando automáticamente.
+MIT.
