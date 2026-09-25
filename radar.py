@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Detect new Habbo furni from the official furnidata XML and notify Discord.
-
-The script is intentionally dependency-free so it can run directly on GitHub's
-hosted Actions runners. State is kept in JSON and committed by the workflow.
-"""
+"""Habbo Collectibles release radar."""
 
 from __future__ import annotations
 
@@ -14,329 +10,519 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
-DEFAULT_URL = "https://www.habbo.es/gamedata/furnidata_xml/1"
-DEFAULT_STATE = Path("state/known_furni.json")
-USER_AGENT = "habbo-furni-radar/1.0 (+https://github.com/xlfr4n/habbo-furni-radar)"
+SHOP_ITEMS_URL = "https://collectibles.habbo.com/api/shop/items/?walletAddress="
+SHOP_PRICES_URL = "https://collectibles.habbo.com/api/shop/prices/?productCodes="
+FURNIDATA_URL = "https://www.habbo.es/gamedata/furnidata_xml/1"
+COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,eur"
+DEFAULT_STATE = Path("state/known_shop_items.json")
+DEFAULT_TIMEZONE = "Europe/Madrid"
+USER_AGENT = "habbo-furni-radar/2.0 (+https://github.com/xlfr4n/habbo-furni-radar)"
 
-
-def clean_text(value: str | None) -> str:
-    return " ".join((value or "").split())
-
-
-def child_text(element: ET.Element, name: str) -> str:
-    child = element.find(name)
-    return clean_text(child.text if child is not None else "")
-
-
-def is_nft(item: dict[str, Any]) -> bool:
-    classname = item["classname"].lower()
-    furniline = item.get("furniline", "").lower()
-    return (
-        classname.startswith("nft_")
-        or classname.startswith("clothing_nft")
-        or classname.startswith("pet_nft")
-        or "nft" in furniline
-    )
+IMAGE_BASES = {
+    "furniture": "https://nft-tokens.habbo.com/collectibles/furni/images/",
+    "clothes": "https://nft-tokens.habbo.com/collectibles/clothes/images/",
+    "pets": "https://nft-tokens.habbo.com/collectibles/pets/images/",
+    "addons": "https://nft-tokens.habbo.com/collectibles/addons/images/",
+}
 
 
-def parse_furnidata(raw: str) -> list[dict[str, Any]]:
-    """Parse Habbo's furnidata XML into stable, JSON-friendly records."""
-    root = ET.fromstring(raw)
-    items: list[dict[str, Any]] = []
-
-    for node in root.iter("furnitype"):
-        furni_id = node.attrib.get("id", "").strip()
-        classname = node.attrib.get("classname", "").strip()
-        if not furni_id or not classname:
-            continue
-
-        item: dict[str, Any] = {
-            "id": furni_id,
-            "classname": classname,
-            "revision": child_text(node, "revision"),
-            "category": child_text(node, "category"),
-            "name": child_text(node, "name"),
-            "description": child_text(node, "description"),
-            "offerid": child_text(node, "offerid"),
-            "specialtype": child_text(node, "specialtype"),
-            "furniline": child_text(node, "furniline"),
-        }
-        item["is_nft"] = is_nft(item)
-        items.append(item)
-
-    items.sort(key=lambda x: (x["classname"].lower(), x["id"]))
-    return items
+def clean_text(value: Any) -> str:
+    return " ".join(str(value or "").split())
 
 
-def item_key(item: dict[str, Any]) -> str:
-    return f"{item['id']}|{item['classname']}"
+def now_utc() -> datetime:
+    return datetime.now(timezone.utc)
 
 
-def load_state(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        return {"schema_version": 1, "known": {}, "source_sha256": ""}
-
+def parse_timestamp(value: Any) -> datetime | None:
+    text = clean_text(value)
+    if not text:
+        return None
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise RuntimeError(f"No se pudo leer el estado {path}: {exc}") from exc
-
-    if not isinstance(data, dict) or not isinstance(data.get("known", {}), dict):
-        raise RuntimeError(
-            f"Estado inválido en {path}; se esperaba un objeto JSON con `known`."
-        )
-    return data
+        return datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
-def save_state(
-    path: Path,
-    source_url: str,
-    source_sha256: str,
-    items: list[dict[str, Any]],
-) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    known = {item_key(item): item for item in items}
-    data = {
-        "schema_version": 1,
-        "source_url": source_url,
-        "source_sha256": source_sha256,
-        "last_successful_check": now,
-        "known": known,
-    }
-    path.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+def format_timestamp(value: Any, tz_name: str = DEFAULT_TIMEZONE) -> str:
+    dt = parse_timestamp(value)
+    if dt is None:
+        return "—"
+    local = dt.astimezone(ZoneInfo(tz_name))
+    utc = dt.astimezone(timezone.utc)
+    label = local.tzname() or tz_name
+    return f"{local:%d/%m/%Y %H:%M:%S} {label} · UTC {utc:%H:%M:%SZ}"
 
 
-def fetch_furnidata(url: str) -> tuple[str, str]:
-    request = urllib.request.Request(
+def get_json(url: str, timeout: int = 30) -> tuple[Any, str]:
+    req = urllib.request.Request(
         url,
         headers={
+            "Accept": "application/json",
             "User-Agent": USER_AGENT,
-            "Accept": "application/xml,text/xml;q=0.9,*/*;q=0.1",
             "Cache-Control": "no-cache",
         },
         method="GET",
     )
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
             body = response.read()
             charset = response.headers.get_content_charset() or "utf-8"
     except urllib.error.URLError as exc:
-        raise RuntimeError(f"No se pudo descargar furnidata: {exc}") from exc
+        raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
 
     raw = body.decode(charset, errors="replace")
-    digest = hashlib.sha256(body).hexdigest()
-    if not raw.strip():
-        raise RuntimeError("Habbo devolvió furnidata vacío.")
-    return raw, digest
+    try:
+        return json.loads(raw), hashlib.sha256(body).hexdigest()
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"JSON inválido de {url}: {exc}") from exc
 
 
-def send_discord(webhook_url: str, new_items: list[dict[str, Any]]) -> None:
-    """Send new items in batches of up to 10 embeds, retrying rate limits."""
-    for start in range(0, len(new_items), 10):
-        batch = new_items[start : start + 10]
-        embeds = []
+def get_text(url: str, timeout: int = 30) -> tuple[str, str]:
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/xml,text/xml;q=0.9,*/*;q=0.1",
+            "User-Agent": USER_AGENT,
+            "Cache-Control": "no-cache",
+        },
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            body = response.read()
+            charset = response.headers.get_content_charset() or "utf-8"
+    except urllib.error.URLError as exc:
+        raise RuntimeError(f"No se pudo descargar {url}: {exc}") from exc
+    return body.decode(charset or "utf-8", errors="replace"), hashlib.sha256(body).hexdigest()
 
-        for item in batch:
-            nft_tag = "💎 NFT / Collectible" if item["is_nft"] else "🪑 Furni"
-            title = item["name"] or item["classname"]
-            fields = [
-                {"name": "Tipo", "value": nft_tag, "inline": True},
-                {"name": "ID", "value": item["id"], "inline": True},
-                {
-                    "name": "Revision",
-                    "value": item["revision"] or "—",
-                    "inline": True,
-                },
-                {
-                    "name": "Classname",
-                    "value": f"`{item['classname']}`",
-                    "inline": False,
-                },
-            ]
 
-            if item.get("category"):
-                fields.insert(
-                    1,
-                    {
-                        "name": "Categoría",
-                        "value": item["category"],
-                        "inline": True,
-                    },
-                )
+def is_non_token_collectible(item: dict[str, Any]) -> bool:
+    item_type = clean_text(item.get("itemType")).lower()
+    collection = clean_text(item.get("collection")).lower()
+    product = clean_text(item.get("productCode")).lower()
+    if item_type == "token" or collection == "tokens":
+        return False
+    return not product.startswith("nft_emerald_")
 
-            if item.get("furniline"):
-                fields.append(
-                    {
-                        "name": "Furniline",
-                        "value": f"`{item['furniline']}`",
-                        "inline": True,
-                    }
-                )
 
-            embed = {
-                "title": f"🆕 {title}",
-                "fields": fields,
-                "footer": {
-                    "text": "Habbo Furni Radar • Habbo.es Furnidata"
-                },
-                "timestamp": datetime.now(timezone.utc)
-                .isoformat()
-                .replace("+00:00", "Z"),
-            }
+def is_visible_release(item: dict[str, Any], current: datetime | None = None) -> bool:
+    if item.get("hidden") is True or item.get("staging") is True:
+        return False
+    current = current or now_utc()
+    start = parse_timestamp(item.get("startsAtTimestamp")) or parse_timestamp(item.get("visibleAtTimestamp"))
+    return start is None or start <= current
 
-            description = item.get("description")
-            if description:
-                embed["description"] = description
 
-            embeds.append(embed)
+def shop_status(item: dict[str, Any], current: datetime | None = None) -> str:
+    current = current or now_utc()
+    if item.get("hidden") is True:
+        return "Oculto"
+    if item.get("staging") is True:
+        return "Staging"
 
-        payload = {
-            "username": "Habbo Furni Radar",
-            "embeds": embeds,
-            "allowed_mentions": {"parse": []},
+    start = parse_timestamp(item.get("startsAtTimestamp"))
+    end = parse_timestamp(item.get("endsAtTimestamp"))
+
+    if start and current < start:
+        return "Próximo"
+    if end and current >= end:
+        return "Finalizado"
+
+    limit = item.get("mintLimit")
+    minted = item.get("minted")
+    if isinstance(limit, (int, float)) and limit > 0 and isinstance(minted, (int, float)) and minted >= limit:
+        return "Agotado"
+    if end and (end - current).total_seconds() <= 24 * 3600:
+        return "Últimas 24h"
+    return "Activo"
+
+
+def image_url(item: dict[str, Any]) -> str:
+    raw = clean_text(item.get("image_url"))
+    if not raw:
+        return ""
+    if raw.startswith(("https://", "http://")):
+        return raw
+
+    collection = clean_text(item.get("collection")).lower()
+    base = IMAGE_BASES.get(collection)
+    if base:
+        return urllib.parse.urljoin(base, raw)
+
+    item_type = clean_text(item.get("itemType")).lower()
+    base = {
+        "furni": IMAGE_BASES["furniture"],
+        "clothing": IMAGE_BASES["clothes"],
+        "clothes": IMAGE_BASES["clothes"],
+        "pet": IMAGE_BASES["pets"],
+        "pets": IMAGE_BASES["pets"],
+        "addon": IMAGE_BASES["addons"],
+        "addons": IMAGE_BASES["addons"],
+    }.get(item_type)
+    return urllib.parse.urljoin(base or "https://nft-tokens.habbo.com/collectibles/", raw)
+
+
+def load_state(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {"schema_version": 2, "known": {}, "last_successful_check": None, "last_api_sha256": ""}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"No se pudo leer {path}: {exc}") from exc
+    if not isinstance(data, dict) or not isinstance(data.get("known"), dict):
+        raise RuntimeError(f"Estado inválido en {path}.")
+    return data
+
+
+def save_state(path: Path, known: dict[str, Any], api_sha256: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = {
+        "schema_version": 2,
+        "source_url": SHOP_ITEMS_URL,
+        "last_successful_check": now_utc().isoformat().replace("+00:00", "Z"),
+        "last_api_sha256": api_sha256,
+        "known": known,
+    }
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def fetch_shop_items() -> tuple[list[dict[str, Any]], str]:
+    data, digest = get_json(SHOP_ITEMS_URL)
+    if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+        raise RuntimeError("La API Shop no devolvió 'items'.")
+    items = [x for x in data["items"] if isinstance(x, dict)]
+    if not items:
+        raise RuntimeError("La API Shop devolvió una lista vacía.")
+    return items, digest
+
+
+def parse_furnidata(raw: str) -> dict[str, dict[str, Any]]:
+    root = ET.fromstring(raw)
+    result: dict[str, dict[str, Any]] = {}
+    for node in root.iter("furnitype"):
+        classname = clean_text(node.attrib.get("classname"))
+        if not classname:
+            continue
+
+        def child(name: str) -> str:
+            value = node.find(name)
+            return clean_text(value.text if value is not None else "")
+
+        result[classname.lower()] = {
+            "furni_id": clean_text(node.attrib.get("id")),
+            "classname": classname,
+            "revision": child("revision"),
+            "category": child("category"),
+            "furni_name": child("name"),
+            "furni_description": child("description"),
+            "offerid": child("offerid"),
+            "specialtype": child("specialtype"),
+            "furniline": child("furniline"),
         }
-        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        request = urllib.request.Request(
+    return result
+
+
+def enrich_with_furnidata(items: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], str]:
+    try:
+        raw, digest = get_text(FURNIDATA_URL)
+        table = parse_furnidata(raw)
+    except (RuntimeError, ET.ParseError) as exc:
+        print(f"::warning::Furnidata no disponible: {exc}", file=sys.stderr)
+        return [dict(item, furnidata={}) for item in items], ""
+
+    result = []
+    for item in items:
+        clone = dict(item)
+        clone["furnidata"] = table.get(clean_text(item.get("productCode")).lower(), {})
+        result.append(clone)
+    return result, digest
+
+
+def chunks(values: list[str], size: int = 50) -> list[list[str]]:
+    return [values[i : i + size] for i in range(0, len(values), size)]
+
+
+def fetch_shop_prices(product_codes: list[str]) -> dict[str, dict[str, Any]]:
+    result: dict[str, dict[str, Any]] = {}
+    for batch in chunks(product_codes, 50):
+        query = urllib.parse.quote(",".join(batch), safe=",")
+        data, _ = get_json(SHOP_PRICES_URL + query)
+        if not isinstance(data, dict) or not isinstance(data.get("prices"), list):
+            continue
+        for entry in data["prices"]:
+            if isinstance(entry, dict) and clean_text(entry.get("product_code")):
+                result[clean_text(entry["product_code"])] = entry
+    return result
+
+
+def fetch_eth_prices() -> dict[str, float]:
+    try:
+        data, _ = get_json(COINGECKO_URL, timeout=15)
+    except RuntimeError as exc:
+        print(f"::warning::ETH rates unavailable: {exc}", file=sys.stderr)
+        return {}
+    eth = data.get("ethereum") if isinstance(data, dict) else None
+    if not isinstance(eth, dict):
+        return {}
+    result = {}
+    for currency in ("usd", "eur"):
+        if isinstance(eth.get(currency), (int, float)):
+            result[currency] = float(eth[currency])
+    return result
+
+
+def usd_eur_from_eth(price_eth: Any, rates: dict[str, float]) -> tuple[float | None, float | None]:
+    try:
+        eth = float(price_eth)
+    except (TypeError, ValueError):
+        return None, None
+    return (
+        eth * rates["usd"] if "usd" in rates else None,
+        eth * rates["eur"] if "eur" in rates else None,
+    )
+
+
+def item_key(item: dict[str, Any]) -> str:
+    return clean_text(item.get("productCode"))
+
+
+def release_source(item: dict[str, Any]) -> str:
+    for key in ("startsAtTimestamp", "visibleAtTimestamp", "createdAt"):
+        if clean_text(item.get(key)):
+            return key
+    return ""
+
+
+def short(value: Any, limit: int = 900) -> str:
+    value = clean_text(value)
+    return value if len(value) <= limit else value[: limit - 1] + "…"
+
+
+def add_field(fields: list[dict[str, Any]], name: str, value: Any, inline: bool = True) -> None:
+    value = short(value, 1024)
+    if value and value != "—":
+        fields.append({"name": name, "value": value, "inline": inline})
+
+
+def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: dict[str, float], detected_at: str) -> dict[str, Any]:
+    name = clean_text(item.get("name")) or item_key(item) or "Collectible"
+    product_code = item_key(item)
+    furnidata = item.get("furnidata") or {}
+    launch_key = release_source(item)
+
+    description = [
+        f"**Lanzamiento:** {format_timestamp(item.get(launch_key))}",
+        f"**Visible en tienda:** {format_timestamp(item.get('visibleAtTimestamp'))}",
+        f"**Creado en catálogo:** {format_timestamp(item.get('createdAt'))}",
+        f"**Última actualización API:** {format_timestamp(item.get('updatedAt'))}",
+    ]
+    api_description = clean_text(furnidata.get("furni_description"))
+    if api_description:
+        description.append(f"**Descripción furnidata:** {short(api_description, 1400)}")
+
+    fields: list[dict[str, Any]] = []
+    add_field(fields, "Tipo", item.get("itemType") or item.get("collection"))
+    add_field(fields, "Rareza", item.get("rarity"))
+    add_field(fields, "Colección", item.get("collection"))
+    add_field(fields, "Set", item.get("set"))
+    add_field(fields, "Subtipo", item.get("itemSubType"))
+    add_field(fields, "Product type", item.get("productType"))
+    add_field(fields, "Material", item.get("material"))
+    add_field(fields, "Score", item.get("score"))
+    if item.get("mintCost") is not None:
+        add_field(fields, "Precio emisión", f"{item.get('mintCost')} Emeralds")
+    add_field(fields, "Acuñados", item.get("minted"))
+    add_field(fields, "Límite", item.get("mintLimit") if item.get("mintLimit") is not None else "∞")
+    add_field(fields, "Estado", shop_status(item))
+    add_field(fields, "Finaliza", format_timestamp(item.get("endsAtTimestamp")))
+    add_field(fields, "Último registro venta API", format_timestamp(item.get("soldTimestamp")))
+    add_field(fields, "Product code", product_code)
+    add_field(fields, "Blueprint", clean_text(item.get("blueprint")))
+
+    for key, label in (
+        ("furni_id", "Furni ID"),
+        ("revision", "Revision"),
+        ("classname", "Classname"),
+        ("furniline", "Furniline"),
+        ("category", "Categoría furnidata"),
+        ("offerid", "Offer ID"),
+    ):
+        value = furnidata.get(key)
+        if value:
+            add_field(fields, label, value)
+
+    if market:
+        price = market.get("price")
+        usd, eur = usd_eur_from_eth(price, eth_rates)
+        if price not in (None, ""):
+            add_field(fields, "Precio mercado API", f"{price} ETH")
+        if usd is not None:
+            add_field(fields, "≈ USD", "$" + f"{usd:,.2f}")
+        if eur is not None:
+            add_field(fields, "≈ EUR", f"€{eur:,.2f}")
+        if market.get("buyType"):
+            add_field(fields, "Buy type", market.get("buyType"))
+        if market.get("type"):
+            add_field(fields, "Market type", market.get("type"))
+
+    embed: dict[str, Any] = {
+        "title": f"💎 {name}",
+        "url": market.get("link") if market and market.get("link") else "https://collectibles.habbo.com/shop/?tab=shop",
+        "description": "\n".join(description),
+        "fields": fields[:25],
+        "footer": {"text": "Habbo Furni Radar • detectado " + format_timestamp(detected_at)},
+        "timestamp": detected_at,
+    }
+
+    image = image_url(item)
+    if image:
+        embed["image"] = {"url": image}
+    return embed
+
+
+def post_json(url: str, payload: dict[str, Any], timeout: int = 20) -> None:
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        headers={"Content-Type": "application/json", "User-Agent": USER_AGENT},
+        method="POST",
+    )
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                if response.status in (200, 204):
+                    return
+                raise RuntimeError(f"Discord HTTP {response.status}")
+        except urllib.error.HTTPError as exc:
+            if exc.code == 429 and attempt < 2:
+                retry = exc.headers.get("Retry-After", "1")
+                try:
+                    delay = min(float(retry), 10)
+                except ValueError:
+                    delay = 1
+                time.sleep(max(0.5, delay))
+                continue
+            raise RuntimeError(f"Discord devolvió HTTP {exc.code}.") from exc
+        except urllib.error.URLError as exc:
+            if attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+                continue
+            raise RuntimeError(f"No se pudo contactar con Discord: {exc}") from exc
+
+
+def send_discord(webhook_url: str, items: list[dict[str, Any]], markets: dict[str, dict[str, Any]], eth_rates: dict[str, float], detected_at: str) -> None:
+    if not webhook_url:
+        raise RuntimeError("DISCORD_WEBHOOK_URL no está configurado.")
+
+    for start in range(0, len(items), 10):
+        batch = items[start : start + 10]
+        post_json(
             webhook_url,
-            data=body,
-            headers={
-                "Content-Type": "application/json",
-                "User-Agent": USER_AGENT,
+            {
+                "username": "Habbo Furni Radar",
+                "content": f"🆕 **{len(batch)} Collectible{'s' if len(batch) != 1 else ''}** · {format_timestamp(detected_at)}",
+                "embeds": [build_embed(item, markets.get(item_key(item)), eth_rates, detected_at) for item in batch],
+                "allowed_mentions": {"parse": []},
             },
-            method="POST",
         )
 
-        for attempt in range(3):
-            try:
-                with urllib.request.urlopen(request, timeout=20) as response:
-                    if response.status in (200, 204):
-                        break
-                    raise RuntimeError(
-                        f"Discord devolvió HTTP {response.status}."
-                    )
-            except urllib.error.HTTPError as exc:
-                if exc.code == 429 and attempt < 2:
-                    retry_after = exc.headers.get("Retry-After", "1")
-                    try:
-                        delay = min(float(retry_after), 10.0)
-                    except ValueError:
-                        delay = 1.0
-                    time.sleep(max(delay, 0.5))
-                    continue
-                raise RuntimeError(
-                    f"Discord devolvió HTTP {exc.code}."
-                ) from exc
-            except urllib.error.URLError as exc:
-                if attempt < 2:
-                    time.sleep(1.5 * (attempt + 1))
-                    continue
-                raise RuntimeError(
-                    f"No se pudo contactar con Discord: {exc}"
-                ) from exc
-            else:
-                break
+
+def filter_shop_items(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [item for item in items if is_non_token_collectible(item) and item_key(item)]
+
+
+def bootstrap_state(items: list[dict[str, Any]], path: Path, digest: str) -> None:
+    known = {
+        item_key(item): {
+            "name": item.get("name", ""),
+            "release": item.get("startsAtTimestamp") or item.get("visibleAtTimestamp") or item.get("createdAt"),
+        }
+        for item in items
+    }
+    save_state(path, known, digest)
+    print(f"Bootstrap completado: {len(known)} Collectibles conocidos. No se envían avisos históricos.")
+
+
+def run(state_path: Path, webhook_url: str, dry_run: bool = False) -> int:
+    items, digest = fetch_shop_items()
+    current = filter_shop_items(items)
+    current_by_key = {item_key(item): item for item in current}
+    state = load_state(state_path)
+    known = state.get("known", {})
+
+    if not known:
+        bootstrap_state(current, state_path, digest)
+        return 0
+
+    current_time = now_utc()
+    new_items = [
+        item
+        for key, item in current_by_key.items()
+        if key not in known and is_visible_release(item, current_time)
+    ]
+    new_items.sort(
+        key=lambda item: (
+            parse_timestamp(item.get("startsAtTimestamp"))
+            or parse_timestamp(item.get("visibleAtTimestamp"))
+            or parse_timestamp(item.get("createdAt"))
+            or datetime.min.replace(tzinfo=timezone.utc)
+        )
+    )
+
+    if not new_items:
+        save_state(state_path, known, digest)
+        print(f"Sin novedades: {len(current_by_key)} Collectibles monitorizados.")
+        return 0
+
+    enriched, _ = enrich_with_furnidata(new_items)
+    markets = fetch_shop_prices([item_key(item) for item in enriched])
+    eth_rates = fetch_eth_prices()
+    detected_at = current_time.isoformat().replace("+00:00", "Z")
+
+    if dry_run:
+        for item in enriched:
+            print(
+                f"{item.get('name')} | {item.get('productCode')} | "
+                f"release={item.get('startsAtTimestamp')} | "
+                f"visible={item.get('visibleAtTimestamp')} | minted={item.get('minted')}"
+            )
+    else:
+        send_discord(webhook_url, enriched, markets, eth_rates, detected_at)
+
+    for item in enriched:
+        key = item_key(item)
+        known[key] = {
+            "name": item.get("name", ""),
+            "release": item.get("startsAtTimestamp") or item.get("visibleAtTimestamp") or item.get("createdAt"),
+            "first_seen_at": detected_at,
+        }
+
+    save_state(state_path, known, digest)
+    print(f"Procesados {len(enriched)} nuevos Collectibles. Precios={len(markets)}.")
+    return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Detecta nuevos furnis de Habbo y avisa por Discord."
-    )
-    parser.add_argument(
-        "--url",
-        default=os.getenv("HABBO_FURNIDATA_URL", DEFAULT_URL),
-    )
-    parser.add_argument(
-        "--state",
-        type=Path,
-        default=Path(os.getenv("HABBO_STATE_FILE", DEFAULT_STATE)),
-    )
-    parser.add_argument(
-        "--webhook",
-        default=os.getenv("DISCORD_WEBHOOK_URL", ""),
-    )
+    parser = argparse.ArgumentParser(description="Radar de nuevos Habbo Collectibles.")
+    parser.add_argument("--state", type=Path, default=Path(os.getenv("HABBO_STATE_FILE", str(DEFAULT_STATE))))
+    parser.add_argument("--webhook", default=os.getenv("DISCORD_WEBHOOK_URL", ""))
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     try:
-        state = load_state(args.state)
-        raw, digest = fetch_furnidata(args.url)
-        items = parse_furnidata(raw)
-    except (RuntimeError, ET.ParseError) as exc:
+        return run(args.state, args.webhook, dry_run=args.dry_run)
+    except (RuntimeError, ET.ParseError, KeyError, ValueError) as exc:
         print(f"::error::{exc}", file=sys.stderr)
         return 1
-
-    if not items:
-        print(
-            "::error::No se encontraron furnis en la respuesta de Habbo.",
-            file=sys.stderr,
-        )
-        return 1
-
-    previous_known: dict[str, Any] = state.get("known", {})
-    first_run = not previous_known
-    current_keys = {item_key(item) for item in items}
-
-    if first_run:
-        save_state(args.state, args.url, digest, items)
-        nft_count = sum(1 for item in items if item["is_nft"])
-        print(
-            f"Bootstrap inicial completado: {len(items)} furnis "
-            f"({nft_count} detectados como NFT)."
-        )
-        print(
-            "No se envió Discord en el primer ciclo para evitar una avalancha "
-            "de mensajes."
-        )
-        return 0
-
-    if state.get("source_sha256") == digest:
-        print(
-            f"Sin cambios: furnidata SHA256 {digest[:12]}… "
-            f"({len(items)} furnis)."
-        )
-        return 0
-
-    new_items = [
-        item for item in items if item_key(item) not in previous_known
-    ]
-
-    if new_items:
-        print(
-            f"Novedades detectadas: {len(new_items)} "
-            f"({sum(1 for item in new_items if item['is_nft'])} NFT)."
-        )
-
-        if not args.webhook:
-            print(
-                "::warning::Hay novedades pero DISCORD_WEBHOOK_URL no está "
-                "configurado. Se conserva el estado anterior para reintentar "
-                "en la próxima ejecución."
-            )
-            return 0
-
-        try:
-            send_discord(args.webhook, new_items)
-        except RuntimeError as exc:
-            print(f"::error::{exc}", file=sys.stderr)
-            return 1
-    else:
-        print(
-            "Furnidata cambió, pero no se añadieron furnis nuevos según el "
-            "identificador estable."
-        )
-
-    save_state(args.state, args.url, digest, items)
-    print(f"Estado actualizado: {len(current_keys)} furnis conocidos.")
-    return 0
 
 
 if __name__ == "__main__":
