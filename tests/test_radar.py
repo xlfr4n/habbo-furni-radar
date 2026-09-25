@@ -97,7 +97,7 @@ class RadarTests(unittest.TestCase):
             total += len(field["name"]) + len(field["value"])
         self.assertLessEqual(total, 6000)
         self.assertTrue(embed["image"]["url"].startswith("https://"))
-        self.assertTrue(embed["title"].startswith("🆕✨"))
+        self.assertIn("Cactus Sofa", embed["title"])
         self.assertIn("🚀 **Lanzamiento:**", embed["description"])
         self.assertIn("### 🔎 Identificación", embed["description"])
         self.assertIn("### 🔗 Mercado", embed["description"])
