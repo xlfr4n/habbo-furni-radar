@@ -1,7 +1,1980 @@
 {
+  "known": {
+    "HCX15": {
+      "name": "Habbo3",
+      "release": "2023-11-28T15:00:43.634Z"
+    },
+    "chatstyle_clay": {
+      "name": "Artifact Speech Bubble",
+      "release": "2024-01-25T09:45:43.006Z"
+    },
+    "clothing_nft10shillings6p": {
+      "name": "Ten Shillings and Six Pence",
+      "release": "2025-05-28T09:00:22.632Z"
+    },
+    "clothing_nft2023tuxedo": {
+      "name": "2023 Fireworks Tuxedo",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "clothing_nft2024": {
+      "name": "2024 New Year Necklace",
+      "release": "2023-12-27T09:40:20.386Z"
+    },
+    "clothing_nft2025": {
+      "name": "2025 New Year Necklace",
+      "release": "2024-12-30T11:20:14.330Z"
+    },
+    "clothing_nft2025santahat": {
+      "name": "Frosty Santa Hat",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nft2026": {
+      "name": "2026 New Year Necklace",
+      "release": "2025-12-31T10:00:07.844Z"
+    },
+    "clothing_nft23rock1fa": {
+      "name": "Big Rocker Beard",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nft23rock1hr": {
+      "name": "Wavey Rocker Hair",
+      "release": "2023-11-08T08:00:36.049Z"
+    },
+    "clothing_nft23rock2fa": {
+      "name": "Small Rocker Moustache",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nft23rock2hr": {
+      "name": "Combed Rocker Hair",
+      "release": "2023-11-15T09:00:06.611Z"
+    },
+    "clothing_nft23rock3fa": {
+      "name": "Small Rocker Beard",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nft23rock3hr": {
+      "name": "Rocker Bandana Hair",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nft23rock4fa": {
+      "name": "Rocker Stubble",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nft25balloonblue": {
+      "name": "Blue Habbo 25 Balloon",
+      "release": "2025-08-13T08:30:14.272Z"
+    },
+    "clothing_nft25balloonred": {
+      "name": "Red Habbo 25 Balloon",
+      "release": "2025-08-13T08:30:14.272Z"
+    },
+    "clothing_nft25earrings3": {
+      "name": "Gold Habbo 25 Earrings",
+      "release": "2025-08-20T09:00:47.188Z"
+    },
+    "clothing_nftakaiakuma": {
+      "name": "Akai Akuma Hair",
+      "release": "2025-03-19T09:30:55.942Z"
+    },
+    "clothing_nftbackmonkey": {
+      "name": "Monkey in a Sling",
+      "release": "2025-06-18T09:30:10.915Z"
+    },
+    "clothing_nftbeachboy": {
+      "name": "Beach-ready Hair",
+      "release": "2026-07-08T08:00:45.236Z"
+    },
+    "clothing_nftberetbrown": {
+      "name": "Beige Beret",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftberetcheck": {
+      "name": "Chequered Beret",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftberetwhite": {
+      "name": "White Beret",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftbighorns": {
+      "name": "Big Basic Horns",
+      "release": "2025-11-12T09:00:13.039Z"
+    },
+    "clothing_nftbigsword": {
+      "name": "Huge Sword",
+      "release": "2025-03-12T10:30:52.832Z"
+    },
+    "clothing_nftblackbeanie": {
+      "name": "Black Ski Beanie",
+      "release": "2024-02-14T10:20:14.197Z"
+    },
+    "clothing_nftblingnecklace": {
+      "name": "Gold H Necklace",
+      "release": "2025-04-30T09:00:06.287Z"
+    },
+    "clothing_nftbloody": {
+      "name": "Bloody Eyes",
+      "release": "2024-10-09T08:00:07.112Z"
+    },
+    "clothing_nftblueberrybag": {
+      "name": "Blueberry Backpack",
+      "release": "2024-03-20T09:30:41.111Z"
+    },
+    "clothing_nftblueberrycap": {
+      "name": "Blueberry Cap",
+      "release": "2024-03-20T09:30:41.111Z"
+    },
+    "clothing_nftblueberryshirt": {
+      "name": "Blueberry T-Shirt",
+      "release": "2024-03-20T09:30:41.111Z"
+    },
+    "clothing_nftblueberryshoes": {
+      "name": "Blueberry Shoes",
+      "release": "2024-03-20T09:30:41.111Z"
+    },
+    "clothing_nftbluebikini": {
+      "name": "Blue Bikini",
+      "release": "2023-07-19T08:00:17.626Z"
+    },
+    "clothing_nftbluehearteyes": {
+      "name": "Electric Blue Heart Eyes",
+      "release": "2025-02-26T09:00:30.993Z"
+    },
+    "clothing_nftblueheartshades": {
+      "name": "Blue Heart Shades",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nftbluerainboots": {
+      "name": "Blue Rain Boots",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftblueraincoat": {
+      "name": "Blue Translucent Anorak",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftbluestarshades": {
+      "name": "Starry Blue Shades",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nftblueswimshorts": {
+      "name": "Blue Swim Shorts",
+      "release": "2023-07-19T08:00:17.626Z"
+    },
+    "clothing_nftbobbajacket": {
+      "name": "Bobba Jacket",
+      "release": "2023-11-08T08:00:36.049Z"
+    },
+    "clothing_nftbookworm": {
+      "name": "Bookworm Specs",
+      "release": "2023-02-15T09:00:09.028Z"
+    },
+    "clothing_nftbrighteyes": {
+      "name": "Lovely Bright Eyes",
+      "release": "2023-09-20T09:00:34.840Z"
+    },
+    "clothing_nftbroccolicut": {
+      "name": "Vigorous Broccoli Cut",
+      "release": "2024-09-18T08:00:22.618Z"
+    },
+    "clothing_nftbubblebath": {
+      "name": "Wearable Bubbles",
+      "release": "2025-07-30T07:40:54.979Z"
+    },
+    "clothing_nftbunnyshades1": {
+      "name": "Pink Bunny Shades",
+      "release": "2025-04-16T09:00:56.024Z"
+    },
+    "clothing_nftbunnyshades2": {
+      "name": "Dark Bunny Shades",
+      "release": "2025-04-16T09:00:56.024Z"
+    },
+    "clothing_nftcatheadband": {
+      "name": "Pink Neko Headband",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcatheadband2": {
+      "name": "Dark Neko Headband",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcatmaiddress": {
+      "name": "Pink Neko Dress",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcatmaiddress2": {
+      "name": "Dark Neko Dress",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcatslippers": {
+      "name": "White Cat Slippers",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcatslippers2": {
+      "name": "Black Cat Slippers",
+      "release": "2025-03-26T08:45:01.594Z"
+    },
+    "clothing_nftcheshiregrin": {
+      "name": "Cheshire Cat Grin",
+      "release": "2025-05-14T10:00:57.603Z"
+    },
+    "clothing_nftchili1": {
+      "name": "Mirasol Chilli",
+      "release": "2024-09-11T08:00:11.494Z"
+    },
+    "clothing_nftchili2": {
+      "name": "Jalapeno Pepper",
+      "release": "2024-09-11T08:00:11.494Z"
+    },
+    "clothing_nftchili3": {
+      "name": "Sweet Banana Chilli",
+      "release": "2024-09-11T08:00:11.494Z"
+    },
+    "clothing_nftcola": {
+      "name": "Habbo Cola Backpack",
+      "release": "2025-08-20T09:00:47.188Z"
+    },
+    "clothing_nftconsole": {
+      "name": "Console Backbag",
+      "release": "2024-06-12T08:55:00.586Z"
+    },
+    "clothing_nftcurlers": {
+      "name": "Hair Rollers",
+      "release": "2023-09-20T09:00:34.840Z"
+    },
+    "clothing_nftcurlybun": {
+      "name": "Wrapped Up Curly Bun",
+      "release": "2024-09-18T08:00:22.618Z"
+    },
+    "clothing_nftdinohoodie": {
+      "name": "Dino Hoodie",
+      "release": "2023-08-23T08:00:00.454Z"
+    },
+    "clothing_nftdinoslippers": {
+      "name": "Dino Slippers",
+      "release": "2023-08-30T07:00:12.316Z"
+    },
+    "clothing_nftdoll": {
+      "name": "Gothic Doll Dungarees",
+      "release": "2022-10-17T13:00:34.296Z"
+    },
+    "clothing_nftdolldress": {
+      "name": "Gothic Doll Dress",
+      "release": "2022-10-17T13:00:34.296Z"
+    },
+    "clothing_nftdollface": {
+      "name": "Doll Face",
+      "release": "2022-10-25T13:00:34.296Z"
+    },
+    "clothing_nftdollhair": {
+      "name": "Doll Cut",
+      "release": "2022-10-26T06:00:05.857Z"
+    },
+    "clothing_nftdollhair2": {
+      "name": "Doll Pigtails",
+      "release": "2022-10-26T06:00:05.857Z"
+    },
+    "clothing_nftdollshoes": {
+      "name": "Gothic Doll Shoes",
+      "release": "2022-10-17T13:00:34.296Z"
+    },
+    "clothing_nftdragonyearmark1": {
+      "name": "Black Dragon Chest Print",
+      "release": "2024-01-31T12:30:20.107Z"
+    },
+    "clothing_nftduckpack": {
+      "name": "Duck Backpack",
+      "release": "2023-02-22T09:00:21.998Z"
+    },
+    "clothing_nftelvenface": {
+      "name": "Elven Face",
+      "release": "2026-04-29T07:00:43.433Z"
+    },
+    "clothing_nftelvenface2": {
+      "name": "Elven Makeup",
+      "release": "2026-04-29T07:00:43.433Z"
+    },
+    "clothing_nftemeraldskin": {
+      "name": "Pure Emerald Skin",
+      "release": "2026-09-25T08:23:00.000Z"
+    },
+    "clothing_nftflashlight": {
+      "name": "Flashlight",
+      "release": "2025-10-01T09:00:52.147Z"
+    },
+    "clothing_nftfrogfloat": {
+      "name": "Frog Ring Float",
+      "release": "2025-08-06T08:00:21.207Z"
+    },
+    "clothing_nftfroghoodie": {
+      "name": "Frog Hoodie",
+      "release": "2023-08-23T08:00:00.454Z"
+    },
+    "clothing_nftfrogslippers": {
+      "name": "Frog Slippers",
+      "release": "2023-08-30T07:00:12.316Z"
+    },
+    "clothing_nftfungalinfection": {
+      "name": "Fungal Infection",
+      "release": "2025-10-01T09:00:52.147Z"
+    },
+    "clothing_nftgoldgrills": {
+      "name": "Golden Grills",
+      "release": "2026-08-26T07:30:14.828Z"
+    },
+    "clothing_nftgraffiticroptop": {
+      "name": "Graffiti Crop Vest",
+      "release": "2024-05-02T08:00:06.586Z"
+    },
+    "clothing_nftgraffitipants": {
+      "name": "Graffiti Joggers",
+      "release": "2024-05-08T08:00:00.087Z"
+    },
+    "clothing_nftgraffititanktop": {
+      "name": "Graffiti Tank Top",
+      "release": "2024-05-02T08:00:06.586Z"
+    },
+    "clothing_nfthappy2026print": {
+      "name": "Happy 2026 Print",
+      "release": "2025-12-31T10:00:07.844Z"
+    },
+    "clothing_nfthearteyes": {
+      "name": "Eyes of Love",
+      "release": "2024-02-14T10:20:51.543Z"
+    },
+    "clothing_nftheartfacepaint": {
+      "name": "Heart Face Paint",
+      "release": "2025-12-23T09:00:15.709Z"
+    },
+    "clothing_nfthobbyhorse1": {
+      "name": "Blonde Hobby Horse",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "clothing_nfthobbyhorse2": {
+      "name": "Brown Hobby Horse",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "clothing_nfthobbyhorse3": {
+      "name": "Unicorn Hobby Horse",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "clothing_nfthohohoprint": {
+      "name": "Ho Ho Ho Print",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nfthorseyearmark1": {
+      "name": "Black Horse Chest Print",
+      "release": "2026-02-06T11:00:00.000Z"
+    },
+    "clothing_nfthorseyearmark2": {
+      "name": "Red Horse Chest Print",
+      "release": "2026-02-06T11:00:00.000Z"
+    },
+    "clothing_nfthorseyearmark3": {
+      "name": "Blue Horse Chest Print",
+      "release": "2026-02-06T11:00:00.000Z"
+    },
+    "clothing_nfthorseyearmark4": {
+      "name": "Green Horse Chest Print",
+      "release": "2026-02-06T11:00:00.000Z"
+    },
+    "clothing_nftkeytar": {
+      "name": "Keytar",
+      "release": "2026-05-20T08:55:02.601Z"
+    },
+    "clothing_nftledbracelet": {
+      "name": "LED Bracelet",
+      "release": "2026-05-06T09:00:33.966Z"
+    },
+    "clothing_nftledhorns": {
+      "name": "LED Horns",
+      "release": "2026-05-06T09:00:33.966Z"
+    },
+    "clothing_nftmayhair1": {
+      "name": "Big Bouffant Hair",
+      "release": "2026-05-27T09:00:10.348Z"
+    },
+    "clothing_nftmayhair2": {
+      "name": "Spiky Mullet",
+      "release": "2026-05-27T09:00:10.348Z"
+    },
+    "clothing_nftmayhair3": {
+      "name": "Tight Curls",
+      "release": "2026-05-27T09:00:10.348Z"
+    },
+    "clothing_nftmechahelmet": {
+      "name": "Forge Helmet",
+      "release": "2023-03-22T08:00:15.494Z"
+    },
+    "clothing_nftmechapack": {
+      "name": "Forge Rocketpack",
+      "release": "2023-03-15T08:00:31.106Z"
+    },
+    "clothing_nftmerryxmasprint": {
+      "name": "Merry Xmas Print",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nftmop": {
+      "name": "Mop Hair",
+      "release": "2025-04-02T09:00:38.829Z"
+    },
+    "clothing_nftmouthtape": {
+      "name": "Taped Mouth",
+      "release": "2026-08-26T07:30:14.828Z"
+    },
+    "clothing_nftmusicalnotes": {
+      "name": "Music Notes",
+      "release": "2026-05-13T10:00:23.884Z"
+    },
+    "clothing_nftnacho": {
+      "name": "Nacho Guzzler",
+      "release": "2024-09-11T08:00:11.494Z"
+    },
+    "clothing_nftnewsboycap": {
+      "name": "Classic Newsboy Cap",
+      "release": "2026-08-19T08:30:54.621Z"
+    },
+    "clothing_nftombrecut1": {
+      "name": "Colourful Ombre Cut A",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "clothing_nftombrecut2": {
+      "name": "Colourful Ombre Cut B",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "clothing_nftpalmbraid": {
+      "name": "Palm Braid",
+      "release": "2026-07-08T08:00:14.199Z"
+    },
+    "clothing_nftpandamask": {
+      "name": "Panda Sleep Mask",
+      "release": "2026-02-11T09:00:23.433Z"
+    },
+    "clothing_nftpartyshades": {
+      "name": "Party Shades",
+      "release": "2026-07-01T08:00:49.946Z"
+    },
+    "clothing_nftpiercings": {
+      "name": "Rocker Piercings",
+      "release": "2023-11-22T10:00:22.170Z"
+    },
+    "clothing_nftpinkbeanie": {
+      "name": "Pink Ski Beanie",
+      "release": "2024-02-14T10:20:14.197Z"
+    },
+    "clothing_nftpinkbikini": {
+      "name": "Pink Bikini",
+      "release": "2023-07-19T08:00:17.626Z"
+    },
+    "clothing_nftpinkhearteyes": {
+      "name": "Electric Pink Heart Eyes",
+      "release": "2025-02-26T09:00:30.993Z"
+    },
+    "clothing_nftpinkheartshades": {
+      "name": "Pink Heart Shades",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nftpinkrainboots": {
+      "name": "Pink Rain Boots",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftpinkraincoat": {
+      "name": "Pink Translucent Anorak",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftpinkstarshades": {
+      "name": "Starry Pink Shades",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nftpinkswimshorts": {
+      "name": "Pink Swim Shorts",
+      "release": "2023-07-19T08:00:17.626Z"
+    },
+    "clothing_nftpopcorn": {
+      "name": "Movie Popcorn",
+      "release": "2026-03-18T09:45:03.061Z"
+    },
+    "clothing_nftpotpalm": {
+      "name": "Potted Palm",
+      "release": "2025-07-16T05:00:02.182Z"
+    },
+    "clothing_nftpurse": {
+      "name": "Coin Purse",
+      "release": "2024-06-12T08:55:00.586Z"
+    },
+    "clothing_nftrainbowbikini": {
+      "name": "Rainbow Bikini",
+      "release": "2026-07-22T08:00:39.357Z"
+    },
+    "clothing_nftrainbowpartyshades": {
+      "name": "Rainbow Party Shades",
+      "release": "2026-07-01T08:00:19.502Z"
+    },
+    "clothing_nftrainbowswimshorts": {
+      "name": "Rainbow Swimming Trunks",
+      "release": "2026-07-15T08:00:59.596Z"
+    },
+    "clothing_nftraspberrybag": {
+      "name": "Raspberry Backpack",
+      "release": "2024-03-13T11:00:33.209Z"
+    },
+    "clothing_nftraspberrycap": {
+      "name": "Raspberry Cap",
+      "release": "2024-03-13T11:00:33.209Z"
+    },
+    "clothing_nftraspberryshirt": {
+      "name": "Raspberry T-Shirt",
+      "release": "2024-03-13T11:00:33.209Z"
+    },
+    "clothing_nftraspberryshoes": {
+      "name": "Raspberry Shoes",
+      "release": "2024-03-13T11:00:33.209Z"
+    },
+    "clothing_nftrastasanta": {
+      "name": "Rasta Santa Hat",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "clothing_nftrippedjeans": {
+      "name": "Ripped Rocker Jeans",
+      "release": "2023-11-15T09:00:06.611Z"
+    },
+    "clothing_nftrippedshorts": {
+      "name": "Ripped Rocker Shorts",
+      "release": "2023-11-15T09:00:06.611Z"
+    },
+    "clothing_nftrudolphprint": {
+      "name": "Rudolph Print",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nftrudolphsnose": {
+      "name": "Rudolph's Glowing Nose",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nftscarface": {
+      "name": "Scar Face",
+      "release": "2025-03-12T10:30:52.832Z"
+    },
+    "clothing_nftseahorsefloat": {
+      "name": "Seahorse Ring Float",
+      "release": "2025-08-06T08:00:21.207Z"
+    },
+    "clothing_nftshortdreads": {
+      "name": "Shortened Dreads",
+      "release": "2023-09-20T09:00:34.840Z"
+    },
+    "clothing_nftshoulderdragon2": {
+      "name": "Shadow Dragon Familiar",
+      "release": "2026-08-12T12:55:25.260Z"
+    },
+    "clothing_nftskullsnroses1": {
+      "name": "Skulls N' Roses Vest",
+      "release": "2023-11-08T08:00:36.049Z"
+    },
+    "clothing_nftskullsnroses2": {
+      "name": "Skulls N' Roses T-Shirt",
+      "release": "2023-11-08T08:00:36.049Z"
+    },
+    "clothing_nftsleepless": {
+      "name": "No Sleep Eyes",
+      "release": "2024-02-28T11:00:00.316Z"
+    },
+    "clothing_nftsnakeyearmark1": {
+      "name": "Black Snake Chest Print",
+      "release": "2025-01-29T10:00:20.630Z"
+    },
+    "clothing_nftsoda": {
+      "name": "Movie Soda",
+      "release": "2026-03-18T09:45:03.061Z"
+    },
+    "clothing_nftspdemon": {
+      "name": "Sleep Paralysis Demon",
+      "release": "2024-11-20T10:00:04.057Z"
+    },
+    "clothing_nftspringbrimhat": {
+      "name": "Wide Brim Sun Hat",
+      "release": "2023-04-21T07:00:45.572Z"
+    },
+    "clothing_nftstarfacepaint": {
+      "name": "Star Face Paint",
+      "release": "2025-12-23T09:00:15.709Z"
+    },
+    "clothing_nftstatue": {
+      "name": "Statue Skin",
+      "release": "2023-12-07T12:00:39.249Z"
+    },
+    "clothing_nftstrawberrybag": {
+      "name": "Strawberry Backpack",
+      "release": "2024-03-27T10:00:47.625Z"
+    },
+    "clothing_nftstrawberrycap": {
+      "name": "Strawberry Cap",
+      "release": "2024-03-27T10:00:47.625Z"
+    },
+    "clothing_nftstrawberryshirt": {
+      "name": "Strawberry T-Shirt",
+      "release": "2024-03-27T10:00:47.625Z"
+    },
+    "clothing_nftstrawberryshoes": {
+      "name": "Strawberry Shoes",
+      "release": "2024-03-27T10:00:47.625Z"
+    },
+    "clothing_nftstrawhat": {
+      "name": "Wide-Brimmed Straw Hat",
+      "release": "2026-09-02T09:00:03.089Z"
+    },
+    "clothing_nftstrawmouth": {
+      "name": "Straw in Mouth",
+      "release": "2026-09-02T09:00:03.089Z"
+    },
+    "clothing_nftstreetboy": {
+      "name": "Eboy Hair",
+      "release": "2024-05-15T08:30:22.481Z"
+    },
+    "clothing_nftstreetgirl": {
+      "name": "Egirl Hair",
+      "release": "2024-05-15T08:30:22.481Z"
+    },
+    "clothing_nftsummercap1": {
+      "name": "Blue Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsummercap2": {
+      "name": "Green Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsummercap3": {
+      "name": "Yellow Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsummercap4": {
+      "name": "Red Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsummercap5": {
+      "name": "Black Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsummercap6": {
+      "name": "White Summer Cap",
+      "release": "2024-07-31T09:05:19.670Z"
+    },
+    "clothing_nftsunflowerdress": {
+      "name": "Sunflower Dress",
+      "release": "2023-04-26T06:00:41.299Z"
+    },
+    "clothing_nftsunflowershirt": {
+      "name": "Sunflower Shirt",
+      "release": "2023-04-26T06:00:41.299Z"
+    },
+    "clothing_nftsunflowershorts": {
+      "name": "Sunflower Shorts",
+      "release": "2023-04-26T06:00:41.299Z"
+    },
+    "clothing_nftsuspenders": {
+      "name": "Snazzy Suspenders",
+      "release": "2026-08-19T08:30:54.621Z"
+    },
+    "clothing_nftswordnshiled": {
+      "name": "Sword 'n' Shield",
+      "release": "2025-11-05T10:55:13.455Z"
+    },
+    "clothing_nfttallcrown": {
+      "name": "Tall Crown",
+      "release": "2025-04-30T09:00:06.287Z"
+    },
+    "clothing_nftteddymask": {
+      "name": "Teddy Sleep Mask",
+      "release": "2026-02-11T09:00:23.433Z"
+    },
+    "clothing_nfttintedglasses": {
+      "name": "Tinted Glasses",
+      "release": "2026-05-13T10:00:23.884Z"
+    },
+    "clothing_nfttrench": {
+      "name": "Open Trench Coat",
+      "release": "2025-04-09T07:30:17.611Z"
+    },
+    "clothing_nfttropical": {
+      "name": "Tropical T-Shirt",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nfttropicalcrop": {
+      "name": "Tropical Crop Top",
+      "release": "2022-08-03T00:00:00.000Z"
+    },
+    "clothing_nfttubescarf": {
+      "name": "Tube Scarf",
+      "release": "2025-12-03T09:00:22.297Z"
+    },
+    "clothing_nftturkeyhat": {
+      "name": "Turkey Hat",
+      "release": "2025-12-23T09:00:15.709Z"
+    },
+    "clothing_nftunicornhoodie": {
+      "name": "Unicorn Hoodie",
+      "release": "2023-08-23T08:00:00.454Z"
+    },
+    "clothing_nftunicornslippers": {
+      "name": "Unicorn Slippers",
+      "release": "2023-08-30T07:00:12.316Z"
+    },
+    "clothing_nftutility": {
+      "name": "Strappy Utility Belt",
+      "release": "2025-11-19T08:00:34.824Z"
+    },
+    "clothing_nftvivideyes": {
+      "name": "Lovely Vivid Eyes",
+      "release": "2023-09-20T09:00:34.840Z"
+    },
+    "clothing_nftwesternshirt": {
+      "name": "Classic Western Shirt",
+      "release": "2026-09-09T08:30:06.397Z"
+    },
+    "clothing_nftwesternvest": {
+      "name": "Classic Western Vest",
+      "release": "2026-09-16T09:45:48.045Z"
+    },
+    "clothing_nftwhitebeanie": {
+      "name": "White Ski Beanie",
+      "release": "2024-02-14T10:20:14.197Z"
+    },
+    "clothing_nftwinte25jacket": {
+      "name": "Winter Puffer Jacket",
+      "release": "2025-12-03T09:00:22.297Z"
+    },
+    "clothing_nftwinter": {
+      "name": "Blue Subzero Gear",
+      "release": "2025-02-05T09:15:09.624Z"
+    },
+    "clothing_nftwinter1": {
+      "name": "Green Subzero Gear",
+      "release": "2025-02-05T09:15:09.624Z"
+    },
+    "clothing_nftwinter2": {
+      "name": "Red Subzero Gear",
+      "release": "2025-02-05T09:15:09.624Z"
+    },
+    "clothing_nftwinter25beanie": {
+      "name": "Winter Pom Beanie",
+      "release": "2025-12-03T09:00:22.297Z"
+    },
+    "clothing_nftwinter25boots": {
+      "name": "Sturdy Winter Boots",
+      "release": "2025-12-03T09:00:22.297Z"
+    },
+    "clothing_nftwinter25pants": {
+      "name": "Warm Winter Pants",
+      "release": "2025-12-03T09:00:22.297Z"
+    },
+    "clothing_nftwinter3": {
+      "name": "Brown Subzero Gear",
+      "release": "2025-02-05T09:15:09.624Z"
+    },
+    "clothing_nftwinterblack": {
+      "name": "Yellow Ski Jacket",
+      "release": "2024-02-21T10:00:35.095Z"
+    },
+    "clothing_nftwinterbreeze": {
+      "name": "Winter Hair",
+      "release": "2023-02-15T09:00:09.028Z"
+    },
+    "clothing_nftwintercapbrown": {
+      "name": "Beige Winter Cap",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftwintercapcheck": {
+      "name": "Chequered Winter Cap",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftwintercapwhite": {
+      "name": "White Winter Cap",
+      "release": "2023-02-08T08:00:33.597Z"
+    },
+    "clothing_nftwintercoatbrown": {
+      "name": "Brown Winter Coat",
+      "release": "2023-02-01T07:00:04.226Z"
+    },
+    "clothing_nftwintercoatcheck": {
+      "name": "Chequered Winter Coat",
+      "release": "2023-02-01T07:00:04.226Z"
+    },
+    "clothing_nftwintercoatwhite": {
+      "name": "White Winter Coat",
+      "release": "2023-02-01T07:00:04.226Z"
+    },
+    "clothing_nftwintergreen": {
+      "name": "Black Ski Jacket",
+      "release": "2024-02-21T10:00:47.118Z"
+    },
+    "clothing_nftwinterpink": {
+      "name": "Pink Ski Jacket",
+      "release": "2024-02-21T10:00:35.095Z"
+    },
+    "clothing_nftwinterweaves": {
+      "name": "Winter Locks",
+      "release": "2023-02-14T22:00:55.008Z"
+    },
+    "clothing_nftwizardsbeard": {
+      "name": "Wizard's Beard",
+      "release": "2025-11-19T08:00:34.824Z"
+    },
+    "clothing_nftwizardsglasses": {
+      "name": "Wizard's Glasses",
+      "release": "2025-11-19T08:00:34.824Z"
+    },
+    "clothing_nftwizardshaircut": {
+      "name": "Wizard's Hair",
+      "release": "2025-11-19T08:00:34.824Z"
+    },
+    "clothing_nftwizardshat": {
+      "name": "Traditional Wizard's Hat",
+      "release": "2025-11-26T09:50:42.529Z"
+    },
+    "clothing_nftwizardsrobe": {
+      "name": "Traditional Wizard's Robe",
+      "release": "2025-11-26T09:50:42.529Z"
+    },
+    "clothing_nftxmasbonnieprint": {
+      "name": "Christmas Bonnie Print",
+      "release": "2025-12-10T09:00:01.037Z"
+    },
+    "clothing_nftxmasdress": {
+      "name": "Scarlet Xmas Dress",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "clothing_nftxmaspants": {
+      "name": "Scarlet Xmas Dungarees",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "clothing_nftxmasshoes": {
+      "name": "Scarlet Xmas Shoes",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "clothing_nftyellowrainboots": {
+      "name": "Yellow Rain Boots",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftyellowraincoat": {
+      "name": "Yellow Translucent Anorak",
+      "release": "2023-09-12T11:00:00.180Z"
+    },
+    "clothing_nftyoyo": {
+      "name": "Hobbiest Yo-Yo",
+      "release": "2026-05-27T09:00:10.348Z"
+    },
+    "clothing_nftyumekawa": {
+      "name": "Yume Kawaii Hair",
+      "release": "2025-03-19T09:30:55.942Z"
+    },
+    "nft_h22_bday_gift1": {
+      "name": "Basic 1st Year Birthday Gift",
+      "release": "2022-09-22T11:00:44.631Z"
+    },
+    "nft_h22_bday_gift2": {
+      "name": "Diamond 1st Year Birthday Gift",
+      "release": "2022-09-22T11:00:51.812Z"
+    },
+    "nft_h22_chiptable": {
+      "name": "Microchip Table",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_chiptable_gold": {
+      "name": "Premium Chip Table",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_dragonlamp": {
+      "name": "Trippy Dragon Lamp",
+      "release": "2022-04-28T10:00:00.000Z"
+    },
+    "nft_h22_dragonskeleton": {
+      "name": "Dragon Skeleton",
+      "release": "2022-08-30T18:00:25.505Z"
+    },
+    "nft_h22_frosty": {
+      "name": "Frosty The Fridge",
+      "release": "2022-05-12T10:00:00.000Z"
+    },
+    "nft_h22_fusetronics_caps": {
+      "name": "Set of Capacitors",
+      "release": "2023-07-26T08:00:26.616Z"
+    },
+    "nft_h22_fusetronics_coil": {
+      "name": "Coil",
+      "release": "2022-11-23T09:00:28.400Z"
+    },
+    "nft_h22_fusetronics_fan": {
+      "name": "Cooler Fan",
+      "release": "2023-07-26T08:00:26.616Z"
+    },
+    "nft_h22_fusetronics_ledg": {
+      "name": "Green LED",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_fusetronics_ledr": {
+      "name": "Red LED",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_fusetronics_ledy": {
+      "name": "Yellow LED",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_fusetronics_res": {
+      "name": "Resistor",
+      "release": "2022-09-14T08:00:01.099Z"
+    },
+    "nft_h22_fusetronics_rug": {
+      "name": "Circuit Board Rug",
+      "release": "2022-07-20T14:00:00.000Z"
+    },
+    "nft_h22_gangnamduckclouds": {
+      "name": "Gangnam Duck Clouds",
+      "release": "2022-06-16T14:00:00.000Z"
+    },
+    "nft_h22_gangnamduckgold": {
+      "name": "Gangnam Duck Gold",
+      "release": "2022-06-22T14:00:00.000Z"
+    },
+    "nft_h22_gangnamduckhearts": {
+      "name": "Gangnam Duck Hearts",
+      "release": "2022-06-22T14:00:00.000Z"
+    },
+    "nft_h22_gangnamduckstars": {
+      "name": "Gangnam Duck Stars",
+      "release": "2022-06-16T14:00:00.000Z"
+    },
+    "nft_h22_keychair_a": {
+      "name": "A Key Stool",
+      "release": "2022-06-16T14:00:00.000Z"
+    },
+    "nft_h22_keychair_b": {
+      "name": "B Key Stool",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "nft_h22_keychair_c": {
+      "name": "C Key Stool",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_keychair_d": {
+      "name": "D Key Stool",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_keychair_e": {
+      "name": "E Key Stool",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_keychair_f": {
+      "name": "F Key Stool",
+      "release": "2022-05-25T10:00:00.000Z"
+    },
+    "nft_h22_keychair_g": {
+      "name": "G Key Stool",
+      "release": "2022-07-20T14:00:00.000Z"
+    },
+    "nft_h22_keychair_h": {
+      "name": "H Key Stool",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_keychair_i": {
+      "name": "I Key Stool",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_keychair_j": {
+      "name": "J Key Stool",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "nft_h22_keychair_k": {
+      "name": "K Key Stool",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "nft_h22_keychair_l": {
+      "name": "L Key Stool",
+      "release": "2022-08-15T19:00:05.158Z"
+    },
+    "nft_h22_keychair_m": {
+      "name": "M Key Stool",
+      "release": "2022-12-20T20:00:58.113Z"
+    },
+    "nft_h22_keychair_n": {
+      "name": "N Key Stool",
+      "release": "2022-05-25T10:00:00.000Z"
+    },
+    "nft_h22_keychair_o": {
+      "name": "O Key Stool",
+      "release": "2022-06-22T14:00:00.000Z"
+    },
+    "nft_h22_keychair_p": {
+      "name": "P Key Stool",
+      "release": "2022-07-06T14:00:00.000Z"
+    },
+    "nft_h22_keychair_q": {
+      "name": "Q Key Stool",
+      "release": "2022-06-22T14:00:00.000Z"
+    },
+    "nft_h22_keychair_r": {
+      "name": "R Key Stool",
+      "release": "2022-07-20T14:00:00.000Z"
+    },
+    "nft_h22_keychair_s": {
+      "name": "S Key Stool",
+      "release": "2022-09-14T08:00:21.317Z"
+    },
+    "nft_h22_keychair_t": {
+      "name": "T Key Stool",
+      "release": "2022-05-25T10:00:00.000Z"
+    },
+    "nft_h22_keychair_u": {
+      "name": "U Key Stool",
+      "release": "2022-07-20T14:00:00.000Z"
+    },
+    "nft_h22_keychair_v": {
+      "name": "V Key Stool",
+      "release": "2022-09-14T08:00:21.317Z"
+    },
+    "nft_h22_keychair_w": {
+      "name": "W Key Stool",
+      "release": "2022-11-23T10:00:50.151Z"
+    },
+    "nft_h22_keychair_x": {
+      "name": "X Key Stool",
+      "release": "2022-06-16T14:00:00.000Z"
+    },
+    "nft_h22_keychair_y": {
+      "name": "Y Key Stool",
+      "release": "2022-11-23T10:00:50.151Z"
+    },
+    "nft_h22_keychair_z": {
+      "name": "Z Key Stool",
+      "release": "2022-11-23T10:00:50.151Z"
+    },
+    "nft_h22_keysofa_shift": {
+      "name": "Shift Key Sofa",
+      "release": "2022-05-25T10:00:00.000Z"
+    },
+    "nft_h22_lightbulb": {
+      "name": "Lightbulb Floor Lamp",
+      "release": "2022-04-28T10:00:00.000Z"
+    },
+    "nft_h22_sharkaquarium": {
+      "name": "Shark Tank",
+      "release": "2022-10-04T20:00:21.530Z"
+    },
+    "nft_h22_trippyfountain": {
+      "name": "Trippy Fountain",
+      "release": "2022-11-07T17:00:08.908Z"
+    },
+    "nft_h22_xmas22present1": {
+      "name": "Basic Xmas Gift Box",
+      "release": "2022-11-28T23:00:47.826Z"
+    },
+    "nft_h22_xmas22present2": {
+      "name": "Diamond Xmas Gift Box",
+      "release": "2022-11-28T23:00:47.826Z"
+    },
+    "nft_h23_bastetgoddess": {
+      "name": "Cat Goddess",
+      "release": "2023-10-25T07:00:45.818Z"
+    },
+    "nft_h23_bday_gift1": {
+      "name": "Hodler 2nd Anniversary Gift",
+      "release": "2023-09-21T12:00:02.401Z"
+    },
+    "nft_h23_bday_gift2": {
+      "name": "Habbo X 2nd Anniversary Gift",
+      "release": "2023-09-21T12:00:02.401Z"
+    },
+    "nft_h23_bigkey": {
+      "name": "Big Habbo X Room Key",
+      "release": "2023-02-09T12:00:00.000Z"
+    },
+    "nft_h23_bluegardener": {
+      "name": "Blue Eco-bot",
+      "release": "2023-04-12T07:00:45.029Z"
+    },
+    "nft_h23_boxrobot": {
+      "name": "Robo Box",
+      "release": "2023-10-11T09:00:08.526Z"
+    },
+    "nft_h23_bronzebear": {
+      "name": "Bronze Bear",
+      "release": "2023-08-09T07:00:53.813Z"
+    },
+    "nft_h23_bronzebull": {
+      "name": "Bronze Bull",
+      "release": "2023-08-09T07:00:53.813Z"
+    },
+    "nft_h23_catcafebot": {
+      "name": "Cat Cafe Bot",
+      "release": "2023-05-03T07:00:17.167Z"
+    },
+    "nft_h23_coolbox": {
+      "name": "Cool Box",
+      "release": "2023-07-03T06:00:06.531Z"
+    },
+    "nft_h23_dollarrug": {
+      "name": "$100 Rug",
+      "release": "2023-08-16T04:00:14.633Z"
+    },
+    "nft_h23_drone": {
+      "name": "Heli-Drone",
+      "release": "2023-10-18T07:00:57.527Z"
+    },
+    "nft_h23_duckmascot": {
+      "name": "University Duck Mascot",
+      "release": "2023-06-21T08:00:56.838Z"
+    },
+    "nft_h23_flyingscooter": {
+      "name": "Flying Scooter",
+      "release": "2023-10-18T07:00:57.527Z"
+    },
+    "nft_h23_haf_mummy": {
+      "name": "Mummy Action Figure",
+      "release": "2023-10-25T07:00:45.818Z"
+    },
+    "nft_h23_haf_noob": {
+      "name": "Action Figure Noob",
+      "release": "2023-06-28T07:00:32.005Z"
+    },
+    "nft_h23_invisible_duck": {
+      "name": "Premium Invisible Duck",
+      "release": "2023-04-05T07:00:01.744Z"
+    },
+    "nft_h23_mechabar": {
+      "name": "Forge Bar",
+      "release": "2023-03-15T08:00:31.106Z"
+    },
+    "nft_h23_mechabarcorner": {
+      "name": "Forge Corner",
+      "release": "2023-03-15T08:00:31.106Z"
+    },
+    "nft_h23_mechabench": {
+      "name": "Forge Bench",
+      "release": "2023-03-08T08:00:56.507Z"
+    },
+    "nft_h23_mechachair": {
+      "name": "Forge Chair",
+      "release": "2023-03-08T08:00:56.507Z"
+    },
+    "nft_h23_mechaflooring": {
+      "name": "Forge Flooring",
+      "release": "2023-03-08T08:00:56.507Z"
+    },
+    "nft_h23_mechagate": {
+      "name": "Forge Gate",
+      "release": "2023-03-15T08:00:31.106Z"
+    },
+    "nft_h23_mechagolem": {
+      "name": "Forge Golem",
+      "release": "2023-03-22T08:00:15.494Z"
+    },
+    "nft_h23_mechajuniper": {
+      "name": "Forge Juniper",
+      "release": "2023-03-08T08:00:56.507Z"
+    },
+    "nft_h23_mecharoller": {
+      "name": "Forge Roller",
+      "release": "2023-03-08T08:00:56.507Z"
+    },
+    "nft_h23_mechastove": {
+      "name": "Forge Stove",
+      "release": "2023-03-22T08:00:15.494Z"
+    },
+    "nft_h23_mechawall": {
+      "name": "Forge Wall",
+      "release": "2023-03-22T08:00:15.494Z"
+    },
+    "nft_h23_partner_habbo3": {
+      "name": "Habbo3 Poster",
+      "release": "2023-11-28T15:00:43.634Z"
+    },
+    "nft_h23_paygate": {
+      "name": "Black NFTC Pay Gate",
+      "release": "2023-07-03T12:00:31.747Z"
+    },
+    "nft_h23_premiumcoolbox": {
+      "name": "Premium Cool Box",
+      "release": "2023-07-03T06:00:29.418Z"
+    },
+    "nft_h23_redgardener": {
+      "name": "Red Eco-bot",
+      "release": "2023-04-12T07:00:45.029Z"
+    },
+    "nft_h23_redtank": {
+      "name": "Tank Drone",
+      "release": "2023-10-11T09:00:08.526Z"
+    },
+    "nft_h23_retrococoa": {
+      "name": "Retro Cocoa Machine",
+      "release": "2023-01-19T09:40:52.961Z"
+    },
+    "nft_h23_roomomatic": {
+      "name": "Room-O-Matic",
+      "release": "2023-05-10T07:00:08.568Z"
+    },
+    "nft_h23_sakuratemple": {
+      "name": "Miniature Hanami Temple",
+      "release": "2023-03-01T08:00:46.651Z"
+    },
+    "nft_h23_scarecrow": {
+      "name": "Autumn Scarecrow",
+      "release": "2023-09-06T07:00:17.529Z"
+    },
+    "nft_h23_sobekstatue": {
+      "name": "Crocodile Statue",
+      "release": "2023-10-25T07:00:45.818Z"
+    },
+    "nft_h23_sonft_poster1": {
+      "name": "Corpse Corp Poster",
+      "release": "2023-06-05T09:00:07.156Z"
+    },
+    "nft_h23_sonft_poster2": {
+      "name": "Galactic Gliderz Poster",
+      "release": "2023-06-05T09:00:07.156Z"
+    },
+    "nft_h23_sonft_poster3": {
+      "name": "Robo Raiderz Poster",
+      "release": "2023-06-05T09:00:07.156Z"
+    },
+    "nft_h23_sonft_poster4": {
+      "name": "Hallway Hellions Poster",
+      "release": "2023-06-05T09:00:07.156Z"
+    },
+    "nft_h23_starfox": {
+      "name": "Galaxy Fox",
+      "release": "2023-10-31T08:00:03.288Z"
+    },
+    "nft_h23_teleport": {
+      "name": "Deluxe Habbo X Teleport",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_trippy_dinoegg": {
+      "name": "Trippy Dino Egg",
+      "release": "2023-06-08T05:00:17.135Z"
+    },
+    "nft_h23_trippy_elephant": {
+      "name": "Trippy Elephant",
+      "release": "2023-03-29T08:00:27.022Z"
+    },
+    "nft_h23_trippy_fan": {
+      "name": "Trippy Powered Fan",
+      "release": "2023-11-28T15:00:43.634Z"
+    },
+    "nft_h23_trippy_hemingway": {
+      "name": "Trippy Typewriter",
+      "release": "2023-10-04T08:00:18.002Z"
+    },
+    "nft_h23_trippy_rarestand": {
+      "name": "Trippy Speaker’s Corner",
+      "release": "2023-08-02T08:00:14.590Z"
+    },
+    "nft_h23_trippy_samovar": {
+      "name": "Trippy Samovar",
+      "release": "2025-09-17T08:35:30.346Z"
+    },
+    "nft_h23_trippy_turntable": {
+      "name": "Trippy DJ Turntable",
+      "release": "2025-07-23T09:00:48.890Z"
+    },
+    "nft_h23_valentinessofa": {
+      "name": "Love Sofa",
+      "release": "2023-02-14T08:00:00.063Z"
+    },
+    "nft_h23_vintaque_chair": {
+      "name": "Ducky Vintaque Chair",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_chair_p": {
+      "name": "Jade Vintaque Chair",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_chair_r": {
+      "name": "Ruby Vintaque Chair",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_desk": {
+      "name": "Vintaque Desk",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_fence": {
+      "name": "Ducky Vintaque Divider",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_fence_p": {
+      "name": "Jade Vintaque Divider",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_fence_r": {
+      "name": "Ruby Vintaque Divider",
+      "release": "2023-05-24T11:00:11.321Z"
+    },
+    "nft_h23_vintaque_nightstand": {
+      "name": "Vintaque Bedside Table",
+      "release": "2023-05-31T11:00:17.601Z"
+    },
+    "nft_h23_vintaque_sofa": {
+      "name": "Ducky Vintaque Sofa",
+      "release": "2023-05-17T07:01:34.948Z"
+    },
+    "nft_h23_vintaque_sofa_p": {
+      "name": "Jade Vintaque Sofa",
+      "release": "2023-05-17T07:01:34.948Z"
+    },
+    "nft_h23_vintaque_sofa_r": {
+      "name": "Ruby Vintaque Sofa",
+      "release": "2023-05-17T07:01:34.948Z"
+    },
+    "nft_h23_vintaque_statue": {
+      "name": "Founder of Habbo Statue",
+      "release": "2023-05-31T11:00:17.601Z"
+    },
+    "nft_h23_vintaque_stool": {
+      "name": "Ducky Vintaque Stool",
+      "release": "2023-05-17T07:00:34.948Z"
+    },
+    "nft_h23_vintaque_stool_p": {
+      "name": "Jade Vintaque Stool",
+      "release": "2023-05-17T07:00:34.948Z"
+    },
+    "nft_h23_vintaque_stool_r": {
+      "name": "Ruby Vintaque Stool",
+      "release": "2023-05-17T07:00:34.948Z"
+    },
+    "nft_h23_vintaque_table": {
+      "name": "Vintaque Table",
+      "release": "2023-05-17T07:04:34.948Z"
+    },
+    "nft_h23_xmas_present1": {
+      "name": "Basic 2023 Xmas Gift Box",
+      "release": "2023-12-11T10:00:57.965Z"
+    },
+    "nft_h23_xmas_present2": {
+      "name": "Premium Xmas 2023 Gift",
+      "release": "2023-12-11T10:00:57.965Z"
+    },
+    "nft_h23_yellowgardener": {
+      "name": "Yellow Eco-bot",
+      "release": "2023-04-12T07:00:45.029Z"
+    },
+    "nft_h24_bbchair": {
+      "name": "Bubblejuice Chair",
+      "release": "2024-06-05T08:50:10.535Z"
+    },
+    "nft_h24_bday_box1": {
+      "name": "3rd Anniversary Gift Box",
+      "release": "2024-09-25T08:00:47.646Z"
+    },
+    "nft_h24_bday_box2": {
+      "name": "Premium 3rd Anniversary Gift Box",
+      "release": "2024-09-25T08:00:47.646Z"
+    },
+    "nft_h24_bday_napmaster": {
+      "name": "Napmaster",
+      "release": "2024-11-27T10:30:28.048Z"
+    },
+    "nft_h24_catacombduck": {
+      "name": "Catacomb Duck",
+      "release": "2024-10-23T07:00:21.555Z"
+    },
+    "nft_h24_cefalu_floor": {
+      "name": "Cefalu Floor",
+      "release": "2024-07-24T09:00:36.868Z"
+    },
+    "nft_h24_cefalu_wall": {
+      "name": "Cefalu Wall",
+      "release": "2024-07-24T09:00:36.868Z"
+    },
+    "nft_h24_circusarrowbutton": {
+      "name": "Circus Arrow Button",
+      "release": "2024-08-21T09:25:39.134Z"
+    },
+    "nft_h24_circusarrowtile": {
+      "name": "Arrow Tile",
+      "release": "2024-08-14T09:00:32.904Z"
+    },
+    "nft_h24_circusbutton": {
+      "name": "Circus Button",
+      "release": "2024-08-21T09:25:39.134Z"
+    },
+    "nft_h24_circuscolortile": {
+      "name": "Colour Tile",
+      "release": "2024-08-14T09:00:32.904Z"
+    },
+    "nft_h24_circusletters": {
+      "name": "Marquee Letters",
+      "release": "2024-08-14T09:00:32.904Z"
+    },
+    "nft_h24_circusmeter": {
+      "name": "Circus Meter",
+      "release": "2024-08-21T09:25:39.134Z"
+    },
+    "nft_h24_circusspiketile": {
+      "name": "Spike Tile",
+      "release": "2024-08-14T09:00:32.904Z"
+    },
+    "nft_h24_circusswitch": {
+      "name": "Circus Switch",
+      "release": "2024-08-21T09:25:39.134Z"
+    },
+    "nft_h24_cloudswing": {
+      "name": "Fluffy Cloud Swing",
+      "release": "2024-11-13T10:00:48.076Z"
+    },
+    "nft_h24_clownstandin1": {
+      "name": "Short Clown Standee",
+      "release": "2024-08-28T09:00:23.247Z"
+    },
+    "nft_h24_clownstandin2": {
+      "name": "Tall Clown Standee",
+      "release": "2024-08-28T09:00:23.247Z"
+    },
+    "nft_h24_eiffel": {
+      "name": "Maude’s Mini Eiffel Tower",
+      "release": "2024-04-17T09:45:44.631Z"
+    },
+    "nft_h24_globe_cabinet": {
+      "name": "Collector’s Drinks Cabinet",
+      "release": "2024-01-10T10:00:36.390Z"
+    },
+    "nft_h24_graffiti1": {
+      "name": "Ksamra Graffiti",
+      "release": "2024-05-29T07:40:06.541Z"
+    },
+    "nft_h24_graffiti2": {
+      "name": "Wataru Graffiti",
+      "release": "2024-05-29T07:40:06.541Z"
+    },
+    "nft_h24_graffiti3": {
+      "name": "Stronghandle Graffiti",
+      "release": "2024-05-29T07:40:06.541Z"
+    },
+    "nft_h24_habburgers": {
+      "name": "Habburgers Cart",
+      "release": "2024-06-19T08:30:10.978Z"
+    },
+    "nft_h24_haf_frosty": {
+      "name": "Frosty Action Figure",
+      "release": "2024-02-07T10:55:14.066Z"
+    },
+    "nft_h24_haf_habbolympian": {
+      "name": "Habbolympian Action Figure",
+      "release": "2024-08-07T08:40:32.695Z"
+    },
+    "nft_h24_haf_noobette": {
+      "name": "Noobette Action Figure",
+      "release": "2024-04-03T09:25:56.284Z"
+    },
+    "nft_h24_haf_zombie": {
+      "name": "Zombie Action Figure",
+      "release": "2024-10-30T09:00:24.505Z"
+    },
+    "nft_h24_hugetube": {
+      "name": "Huge Tube",
+      "release": "2024-06-26T09:30:20.453Z"
+    },
+    "nft_h24_hween_nobox": {
+      "name": "Dusty Box",
+      "release": "2024-10-02T10:00:37.649Z"
+    },
+    "nft_h24_largeshowcase": {
+      "name": "Large Collector’s Showcase",
+      "release": "2024-01-16T22:00:36.878Z"
+    },
+    "nft_h24_layoncloud": {
+      "name": "Fluffy Cloud Bed",
+      "release": "2024-11-13T10:00:48.076Z"
+    },
+    "nft_h24_lidoduck": {
+      "name": "Lido Duck Statue",
+      "release": "2024-06-19T08:30:10.978Z"
+    },
+    "nft_h24_luggage1": {
+      "name": "Teal Suitcase",
+      "release": "2024-07-24T09:00:36.868Z"
+    },
+    "nft_h24_luggage2": {
+      "name": "Green Suitcase",
+      "release": "2024-07-24T09:00:36.868Z"
+    },
+    "nft_h24_luggage3": {
+      "name": "Blue Suitcase",
+      "release": "2024-07-24T09:00:36.868Z"
+    },
+    "nft_h24_moai": {
+      "name": "Maude’s Mini Moai Statue",
+      "release": "2024-04-10T08:00:16.390Z"
+    },
+    "nft_h24_podsofa1": {
+      "name": "Red Pod Sofa",
+      "release": "2024-07-10T11:00:00.000Z"
+    },
+    "nft_h24_podsofa2": {
+      "name": "White Pod Sofa",
+      "release": "2024-07-10T11:00:00.000Z"
+    },
+    "nft_h24_podsofa3": {
+      "name": "Dark Blue Pod Sofa",
+      "release": "2024-07-10T11:00:00.000Z"
+    },
+    "nft_h24_podsofa4": {
+      "name": "Fuchsia Pod Sofa",
+      "release": "2024-07-10T11:00:00.000Z"
+    },
+    "nft_h24_pyramid": {
+      "name": "Maude’s Mini Pyramid",
+      "release": "2024-04-10T08:00:16.390Z"
+    },
+    "nft_h24_rastabeanbag": {
+      "name": "Rasta Bean Bag",
+      "release": "2024-06-05T08:50:10.535Z"
+    },
+    "nft_h24_shinythunderfruit": {
+      "name": "Dazzling Thunder Fruit",
+      "release": "2024-03-06T11:15:47.061Z"
+    },
+    "nft_h24_showcase": {
+      "name": "Collector's Showcase",
+      "release": "2024-01-17T09:00:45.772Z"
+    },
+    "nft_h24_sitoncloud": {
+      "name": "Fluffy Cloud Chair",
+      "release": "2024-11-13T10:00:48.076Z"
+    },
+    "nft_h24_skull1": {
+      "name": "Mystic Ornamental Skull",
+      "release": "2024-09-04T08:00:11.744Z"
+    },
+    "nft_h24_skull2": {
+      "name": "Chaotic Ornamental Skull",
+      "release": "2024-09-04T08:00:11.744Z"
+    },
+    "nft_h24_skull3": {
+      "name": "Visionary Ornamental Skull",
+      "release": "2024-09-04T08:00:11.744Z"
+    },
+    "nft_h24_spookyhotel": {
+      "name": "Habboween Hotel",
+      "release": "2024-10-02T10:00:37.649Z"
+    },
+    "nft_h24_statueofliberty": {
+      "name": "Maude’s Mini Statue of Liberty",
+      "release": "2024-04-24T08:30:51.132Z"
+    },
+    "nft_h24_thunderfruit": {
+      "name": "Thunder Fruit",
+      "release": "2024-03-06T11:15:47.061Z"
+    },
+    "nft_h24_xmas_present1": {
+      "name": "Basic 2024 Xmas Gift Box",
+      "release": "2024-12-11T11:00:10.022Z"
+    },
+    "nft_h24_xmas_present2": {
+      "name": "Premium 2024 Xmas Gift Box",
+      "release": "2024-12-11T11:00:10.022Z"
+    },
+    "nft_h25_alhambrahookah": {
+      "name": "Alhambra Bubble Juice Pipe",
+      "release": "2025-05-21T10:00:43.555Z"
+    },
+    "nft_h25_alhambrapillowpile": {
+      "name": "Alhambra Pillows",
+      "release": "2025-05-21T10:00:43.555Z"
+    },
+    "nft_h25_alicefigure": {
+      "name": "Alice Collectible Figure",
+      "release": "2025-05-07T09:00:28.032Z"
+    },
+    "nft_h25_armasbarrelchair": {
+      "name": "Converted Barrel",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "nft_h25_armasrockingchair": {
+      "name": "Antique Rocking Bench",
+      "release": "2025-09-24T10:00:13.343Z"
+    },
+    "nft_h25_caterpillarfigure": {
+      "name": "Caterpillar Collectible Figure",
+      "release": "2025-05-21T10:00:43.555Z"
+    },
+    "nft_h25_cheshirecatfigure": {
+      "name": "Cheshire Cat Collectible Figure",
+      "release": "2025-05-14T10:00:57.603Z"
+    },
+    "nft_h25_collbench": {
+      "name": "Collectors Bench",
+      "release": "2025-01-15T14:00:25.340Z"
+    },
+    "nft_h25_collbigchest": {
+      "name": "Large Collectors Chest",
+      "release": "2025-01-08T12:00:51.807Z"
+    },
+    "nft_h25_collpillar": {
+      "name": "Collectors Pillar",
+      "release": "2025-01-22T10:00:28.402Z"
+    },
+    "nft_h25_collsmallchest": {
+      "name": "Collectors Chest",
+      "release": "2025-01-08T12:00:51.807Z"
+    },
+    "nft_h25_collsofa": {
+      "name": "Collectors Couch",
+      "release": "2025-01-15T14:00:25.340Z"
+    },
+    "nft_h25_colltable": {
+      "name": "Collectors Table",
+      "release": "2025-01-22T10:00:28.402Z"
+    },
+    "nft_h25_coolbox1": {
+      "name": "Summer 2025 Cool Box",
+      "release": "2025-07-02T08:00:22.815Z"
+    },
+    "nft_h25_coolbox2": {
+      "name": "Premium 2025 Cool Box",
+      "release": "2025-07-02T08:00:22.815Z"
+    },
+    "nft_h25_deluxemannequin": {
+      "name": "Deluxe Mannequin",
+      "release": "2025-04-23T08:00:23.964Z"
+    },
+    "nft_h25_flowers1": {
+      "name": "Sunshine Yellow Tulips",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers10": {
+      "name": "White Peruvian Lilies",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers2": {
+      "name": "Bright Red Tulips",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers3": {
+      "name": "Rich Purple Tulips",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers4": {
+      "name": "Blood Red Roses",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers5": {
+      "name": "Bright Purple Roses",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers6": {
+      "name": "Royal White Roses",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers7": {
+      "name": "White Amaryllis",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers8": {
+      "name": "Purple Amaryllis",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_flowers9": {
+      "name": "Pink Peruvian Lilies",
+      "release": "2025-02-12T09:00:52.502Z"
+    },
+    "nft_h25_gingerbreadhotel": {
+      "name": "Gingerbread Hotel",
+      "release": "2025-12-17T10:00:33.019Z"
+    },
+    "nft_h25_gingerbreadsofa": {
+      "name": "Gingerbread Sofa",
+      "release": "2025-12-17T10:00:33.019Z"
+    },
+    "nft_h25_gnomeofdoom": {
+      "name": "Reaper Gnome",
+      "release": "2025-10-08T08:00:35.931Z"
+    },
+    "nft_h25_goblin": {
+      "name": "Goblin Warrior",
+      "release": "2025-11-12T09:00:13.039Z"
+    },
+    "nft_h25_haf_reddevil": {
+      "name": "Red::Devil Action Figure",
+      "release": "2025-03-05T09:00:24.435Z"
+    },
+    "nft_h25_haf_squabble": {
+      "name": "Johnny Squabble Action Figure",
+      "release": "2025-08-27T08:50:47.994Z"
+    },
+    "nft_h25_hatterfigure": {
+      "name": "Hatter Collectible Figure",
+      "release": "2025-05-28T09:00:22.632Z"
+    },
+    "nft_h25_magiccauldron": {
+      "name": "Magic Cauldron",
+      "release": "2025-11-05T10:55:13.455Z"
+    },
+    "nft_h25_monkeybzn_chair": {
+      "name": "Gigantic Banana Chair",
+      "release": "2025-06-04T08:00:34.801Z"
+    },
+    "nft_h25_monkeybzn_drinks": {
+      "name": "Junglist Refreshments",
+      "release": "2025-06-11T09:00:15.787Z"
+    },
+    "nft_h25_monkeybzn_gang": {
+      "name": "Monkey Gang",
+      "release": "2025-06-18T09:30:10.915Z"
+    },
+    "nft_h25_monkeybzn_pond": {
+      "name": "Monkey Bath",
+      "release": "2025-06-25T10:00:04.236Z"
+    },
+    "nft_h25_owlsculpture": {
+      "name": "Owl Sculpture",
+      "release": "2025-02-19T10:00:00.559Z"
+    },
+    "nft_h25_pegasusstatue": {
+      "name": "Pegasus Statue",
+      "release": "2025-09-10T09:00:45.791Z"
+    },
+    "nft_h25_pumpkinpod": {
+      "name": "Pumpkin Pod",
+      "release": "2025-10-08T08:00:35.931Z"
+    },
+    "nft_h25_robocroc": {
+      "name": "Robotik Croc",
+      "release": "2025-08-20T09:00:47.188Z"
+    },
+    "nft_h25_skelebutler": {
+      "name": "Skeleton Butler",
+      "release": "2025-10-15T08:30:59.760Z"
+    },
+    "nft_h25_trippy_marquee": {
+      "name": "Trippy Marquee",
+      "release": "2025-08-20T09:00:47.188Z"
+    },
+    "nft_h25_trippy_pillar": {
+      "name": "Trippy Pillar",
+      "release": "2025-06-11T09:00:15.787Z"
+    },
+    "nft_h25_trippy_scifidoor": {
+      "name": "Trippy Spaceship Door",
+      "release": "2025-09-03T09:00:04.241Z"
+    },
+    "nft_h25_trippy_scifiport": {
+      "name": "Trippy Laser Gate",
+      "release": "2025-08-07T08:00:14.129Z"
+    },
+    "nft_h25_trippy_scifirocket": {
+      "name": "Trippy Smoke Machine",
+      "release": "2025-05-28T09:00:22.632Z"
+    },
+    "nft_h25_trippy_screen": {
+      "name": "Trippy Oriental Screen",
+      "release": "2025-06-25T10:00:04.236Z"
+    },
+    "nft_h25_trippy_sleepingbag": {
+      "name": "Trippy Sleeping Bag",
+      "release": "2025-07-09T05:00:02.878Z"
+    },
+    "nft_h25_xmasgiftbox": {
+      "name": "Christmas Gift Box",
+      "release": "2025-12-17T10:00:33.019Z"
+    },
+    "nft_h25_xmasicm": {
+      "name": "Xmas Ice Cream Machine",
+      "release": "2025-12-23T09:00:15.709Z"
+    },
+    "nft_h25_xmaslamp": {
+      "name": "Xmas Hat Lamp",
+      "release": "2025-12-17T10:00:33.019Z"
+    },
+    "nft_h25_zeusdrinks": {
+      "name": "Zeus's Water Fountain",
+      "release": "2025-09-03T09:00:04.241Z"
+    },
+    "nft_h25_zeuspod": {
+      "name": "Zeus's Pod Chair",
+      "release": "2025-09-17T08:35:30.346Z"
+    },
+    "nft_h26_alarmboombox": {
+      "name": "Alarm Boom Box",
+      "release": "2026-02-18T10:40:12.707Z"
+    },
+    "nft_h26_annivfrosty": {
+      "name": "Anniversary Frosty",
+      "release": "2026-09-24T08:29:00.000Z"
+    },
+    "nft_h26_aprilshrimp": {
+      "name": "Shrimp Statue",
+      "release": "2026-04-01T09:00:18.307Z"
+    },
+    "nft_h26_bamboochair": {
+      "name": "Jungle Chair",
+      "release": "2026-06-03T10:00:30.125Z"
+    },
+    "nft_h26_bedtray": {
+      "name": "Bed Tray",
+      "release": "2026-02-25T09:10:52.894Z"
+    },
+    "nft_h26_bigcd": {
+      "name": "Large CD",
+      "release": "2026-05-20T08:55:02.601Z"
+    },
+    "nft_h26_bigtv": {
+      "name": "Non-Portable TV",
+      "release": "2026-03-25T09:40:02.184Z"
+    },
+    "nft_h26_brewingkit": {
+      "name": "DIY Brewing Kit",
+      "release": "2026-09-23T08:45:00.000Z"
+    },
+    "nft_h26_cardchair": {
+      "name": "Card Game Chair",
+      "release": "2026-08-12T08:20:02.983Z"
+    },
+    "nft_h26_cardtable": {
+      "name": "Card Game Table",
+      "release": "2026-08-12T08:20:02.983Z"
+    },
+    "nft_h26_contraband": {
+      "name": "Contraband Suitcase",
+      "release": "2026-08-05T07:30:18.843Z"
+    },
+    "nft_h26_crates": {
+      "name": "Suspicious Crates",
+      "release": "2026-08-05T07:30:18.843Z"
+    },
+    "nft_h26_discobed": {
+      "name": "Disco Bed",
+      "release": "2026-02-18T10:40:12.707Z"
+    },
+    "nft_h26_dngbattlerockingchair": {
+      "name": "Dungeon Rocking Chair",
+      "release": "2026-04-01T09:00:18.307Z"
+    },
+    "nft_h26_dngbbq": {
+      "name": "Dungeon Barbeque",
+      "release": "2026-04-15T09:25:25.707Z"
+    },
+    "nft_h26_dngdragonsofa": {
+      "name": "Dungeon Sofa",
+      "release": "2026-04-22T08:05:49.813Z"
+    },
+    "nft_h26_dngpillar": {
+      "name": "Dungeon Pillar",
+      "release": "2026-04-15T09:25:25.707Z"
+    },
+    "nft_h26_dngstool": {
+      "name": "Dungeon Stool",
+      "release": "2026-04-08T09:00:57.836Z"
+    },
+    "nft_h26_dngtable": {
+      "name": "Dungeon Table",
+      "release": "2026-04-08T09:00:57.836Z"
+    },
+    "nft_h26_drpgamingchair": {
+      "name": "Retro Polyfon Gamer Chair",
+      "release": "2026-01-07T10:00:30.543Z"
+    },
+    "nft_h26_figu1": {
+      "name": "Super Frank Figurine",
+      "release": "2026-03-11T09:00:58.822Z"
+    },
+    "nft_h26_figu2": {
+      "name": "Habbo in Black Figurine",
+      "release": "2026-03-11T09:00:58.822Z"
+    },
+    "nft_h26_figu3": {
+      "name": "Robo Figurine",
+      "release": "2026-03-11T09:00:58.822Z"
+    },
+    "nft_h26_gamingsign": {
+      "name": "Gamer Fanatic Wall Mount",
+      "release": "2026-01-07T10:00:30.543Z"
+    },
+    "nft_h26_haf_holoboy": {
+      "name": "Holoboy Action Figure",
+      "release": "2026-01-21T06:00:41.547Z"
+    },
+    "nft_h26_haf_hologirl": {
+      "name": "Hologirl Action Figure",
+      "release": "2026-01-21T08:00:24.979Z"
+    },
+    "nft_h26_haf_junglesantini": {
+      "name": "Santini the Junglist",
+      "release": "2026-06-24T05:00:52.262Z"
+    },
+    "nft_h26_hafbox": {
+      "name": "Habbo Action Figure Box",
+      "release": "2026-03-18T09:45:03.061Z"
+    },
+    "nft_h26_joystick": {
+      "name": "Oversized Joystick Decoration",
+      "release": "2026-01-14T10:00:18.889Z"
+    },
+    "nft_h26_jungleplant1": {
+      "name": "Cheese Plant",
+      "release": "2026-06-10T09:00:56.902Z"
+    },
+    "nft_h26_jungleplant2": {
+      "name": "Devil's Ivy",
+      "release": "2026-06-10T09:00:56.902Z"
+    },
+    "nft_h26_jungleplant3": {
+      "name": "Tropical Poinsettia",
+      "release": "2026-06-10T09:00:56.902Z"
+    },
+    "nft_h26_losttoilet": {
+      "name": "Temple Toilet",
+      "release": "2026-06-17T09:00:49.464Z"
+    },
+    "nft_h26_lotfposter": {
+      "name": "The Lord of the Furni Poster",
+      "release": "2026-03-04T08:00:33.895Z"
+    },
+    "nft_h26_movienightchair": {
+      "name": "Movie Chair",
+      "release": "2026-03-25T09:40:02.184Z"
+    },
+    "nft_h26_pillowssofa": {
+      "name": "Pillow Sofa",
+      "release": "2026-02-25T09:10:52.894Z"
+    },
+    "nft_h26_pineapplefridge": {
+      "name": "Pineapple Fridge",
+      "release": "2026-07-29T09:00:16.512Z"
+    },
+    "nft_h26_poolfactionposter": {
+      "name": "Pool Faction Poster",
+      "release": "2026-03-04T08:00:33.895Z"
+    },
+    "nft_h26_receptionistposter": {
+      "name": "The Receptionist Poster",
+      "release": "2026-03-04T08:00:33.895Z"
+    },
+    "nft_h26_sandmangnome": {
+      "name": "Sandman Gnome",
+      "release": "2026-02-06T11:00:00.000Z"
+    },
+    "nft_h26_sunlounger": {
+      "name": "Jungle Sunlounger",
+      "release": "2026-06-03T10:00:30.125Z"
+    },
+    "nft_h26_treasuremap2": {
+      "name": "Jungle Treasure Map B",
+      "release": "2026-06-03T10:00:30.125Z"
+    },
+    "nft_h26_trippypatch": {
+      "name": "Trippy Patch",
+      "release": "2026-09-24T08:29:00.000Z"
+    },
+    "nft_u23_sonft_sofa": {
+      "name": "Brain Sofa",
+      "release": "2023-06-14T07:00:52.213Z"
+    },
+    "nft_u23_xmaseasel": {
+      "name": "Xmas 2023 Easel",
+      "release": "2023-12-22T11:30:33.394Z"
+    },
+    "nft_u24_autumnpatch": {
+      "name": "Autumnal Petal Patch",
+      "release": "2024-11-06T10:00:16.485Z"
+    }
+  },
+  "last_api_sha256": "6ef4f09fb2a431c48678d320b85fc565b74125d2a42761ed4c25366d449d6094",
+  "last_successful_check": "2026-09-25T16:05:51.329284Z",
   "schema_version": 2,
-  "source_url": "https://collectibles.habbo.com/api/shop/items/?walletAddress=",
-  "last_successful_check": null,
-  "last_api_sha256": "",
-  "known": {}
+  "source_url": "https://collectibles.habbo.com/api/shop/items/?walletAddress="
 }
