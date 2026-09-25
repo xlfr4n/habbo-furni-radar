@@ -338,8 +338,10 @@ def release_source(item: dict[str, Any]) -> str:
 
 
 def short(value: Any, limit: int = 900) -> str:
-    value = clean_text(value)
-    return value if len(value) <= limit else value[: limit - 1] + "…"
+    value = str(value or "").strip()
+    if len(value) <= limit:
+        return value
+    return value[: limit - 1] + "…"
 
 
 def add_field(fields: list[dict[str, Any]], name: str, value: Any, inline: bool = True) -> None:
@@ -446,6 +448,7 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
         "url": "https://collectibles.habbo.com/shop/?tab=shop",
         "description": description,
         "fields": fields[:18],
+        "color": 0x7C3AED,
         "footer": {
             "text": "📡 Habbo Furni Radar • detección " + format_timestamp(detected_at),
         },
