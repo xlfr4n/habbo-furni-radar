@@ -255,7 +255,11 @@ def fetch_shop_prices(product_codes: list[str]) -> dict[str, dict[str, Any]]:
     result: dict[str, dict[str, Any]] = {}
     for batch in chunks(product_codes, 50):
         query = urllib.parse.quote(",".join(batch), safe=",")
-        data, _ = get_json(SHOP_PRICES_URL + query)
+        try:
+            data, _ = get_json(SHOP_PRICES_URL + query)
+        except RuntimeError as exc:
+            print(f"::warning::Price API unavailable for this cycle: {exc}", file=sys.stderr)
+            continue
         if not isinstance(data, dict) or not isinstance(data.get("prices"), list):
             continue
         for entry in data["prices"]:
