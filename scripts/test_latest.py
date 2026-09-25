@@ -53,8 +53,9 @@ def main() -> int:
     items, _ = fetch_shop_items()
     current = [x for x in filter_shop_items(items) if x.get("startsAtTimestamp")]
     current.sort(key=lambda x: x.get("startsAtTimestamp") or "", reverse=True)
-    item, = [current[0]]
-    item, = enrich_with_furnidata([item])
+    item = current[0]
+    enriched, _ = enrich_with_furnidata([item])
+    item = enriched[0]
     img = image_url(item)
     name = str(item.get("name") or "Test Collectible")
     iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
