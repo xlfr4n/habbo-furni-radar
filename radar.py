@@ -33,6 +33,32 @@ IMAGE_BASES = {
     "addons": "https://nft-tokens.habbo.com/collectibles/addons/images/",
 }
 
+RARITY_COLORS = {
+    "common": 0x95A5A6,
+    "uncommon": 0x2ECC71,
+    "rare": 0x3498DB,
+    "epic": 0x9B59B6,
+    "legendary": 0xF1C40F,
+}
+
+RARITY_ICONS = {
+    "common": "⚪",
+    "uncommon": "🟢",
+    "rare": "🔵",
+    "epic": "🟣",
+    "legendary": "🟡",
+}
+
+STATUS_ICONS = {
+    "activo": "🟢",
+    "últimas 24h": "🟠",
+    "agotado": "🔴",
+    "finalizado": "⚪",
+    "próximo": "🕒",
+    "oculto": "⚫",
+    "staging": "🧪",
+}
+
 
 def clean_text(value: Any) -> str:
     return " ".join(str(value or "").split())
@@ -356,13 +382,20 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
     furnidata = item.get("furnidata") or {}
     launch_key = release_source(item)
 
+    rarity_raw = clean_text(item.get("rarity"))
+    rarity_key = rarity_raw.lower()
+    rarity_icon = RARITY_ICONS.get(rarity_key, "💎")
+    status_raw = shop_status(item)
+    status_icon = STATUS_ICONS.get(status_raw.lower(), "📍")
+    item_type = clean_text(item.get("itemType") or item.get("collection")) or "—"
+
     chronology = [
-        "🚀 **Lanzamiento:** " + format_timestamp(item.get(launch_key)),
-        "👁️ **Visible en tienda:** " + format_timestamp(item.get("visibleAtTimestamp")),
-        "📦 **Creado en catálogo:** " + format_timestamp(item.get("createdAt")),
-        "🔄 **Última actualización:** " + format_timestamp(item.get("updatedAt")),
-        "🏁 **Fin de venta:** " + format_timestamp(item.get("endsAtTimestamp")),
-        "💸 **Último registro de venta:** " + format_timestamp(item.get("soldTimestamp")),
+        "> 🚀 **Lanzamiento:** " + format_timestamp(item.get(launch_key)),
+        "> 👁️ **Visible en tienda:** " + format_timestamp(item.get("visibleAtTimestamp")),
+        "> 📦 **Creado en catálogo:** " + format_timestamp(item.get("createdAt")),
+        "> 🔄 **Última actualización:** " + format_timestamp(item.get("updatedAt")),
+        "> 🏁 **Fin de venta:** " + format_timestamp(item.get("endsAtTimestamp")),
+        "> 💸 **Último registro de venta:** " + format_timestamp(item.get("soldTimestamp")),
     ]
 
     description_parts = [
@@ -376,23 +409,23 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
     if api_description:
         description_parts.extend([
             "",
-            "### 📝 Descripción",
-            api_description,
+            "### 📝 Descripción exacta",
+            "> " + api_description.replace("\n", "\n> "),
         ])
 
     identifiers = [
-        "🔑 " + product_code,
-        "🧩 Blueprint: " + (clean_text(item.get("blueprint")) or "—"),
+        "> 🔑 " + product_code,
+        "> 🧩 **Blueprint:** " + (clean_text(item.get("blueprint")) or "—"),
     ]
     if furnidata.get("classname"):
-        identifiers.append("🏷️ Classname: " + clean_text(furnidata.get("classname")))
+        identifiers.append("> 🏷️ **Classname:** " + clean_text(furnidata.get("classname")))
     if furnidata.get("furni_id"):
-        identifiers.append("🪑 Furni ID: " + clean_text(furnidata.get("furni_id")))
+        identifiers.append("> 🪑 **Furni ID:** " + clean_text(furnidata.get("furni_id")))
 
     description_parts.extend([
         "",
         "### 🔎 Identificación",
-        "\n".join(identifiers),
+        *identifiers,
     ])
 
     if market and market.get("link"):
@@ -405,52 +438,92 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
 
     description = short("\n".join(description_parts), 1900)
 
-    fields: list[dict[str, Any]] = []
-    field_values = [
-        ("🎨 Tipo", item.get("itemType") or item.get("collection")),
-        ("💎 Rareza", item.get("rarity")),
-        ("🗂️ Colección", item.get("collection")),
-        ("📊 Score", item.get("score")),
-        ("💰 Emisión", f"{item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else None),
-        ("🪙 Acuñados", item.get("minted")),
-        ("♾️ Límite", item.get("mintLimit") if item.get("mintLimit") is not None else "∞"),
-        ("📍 Estado", shop_status(item)),
+    fields: list[dict[str, Any]] = [
+        {
+            "name": "🎨 Collectible",
+            "value": f"{item_type}\n{rarity_icon} {rarity_raw or '—'}",
+            "inline": True,
+        },
+        {
+            "name": "🗂️ Colección",
+            "value": clean_text(item.get("collection")) or "—",
+            "inline": True,
+        },
+        {
+            "name": "📊 Score",
+            "value": clean_text(item.get("score")) or "—",
+            "inline": True,
+        },
+        {
+            "name": "💰 Emisión",
+            "value": (
+                f"{item.get('mintCost')} Emeralds"
+                if item.get("mintCost") is not None
+                else "—"
+            ),
+            "inline": True,
+        },
+        {
+            "name": "🪙 Acuñados",
+            "value": clean_text(item.get("minted")) or "—",
+            "inline": True,
+        },
+        {
+            "name": "♾️ Límite",
+            "value": str(item.get("mintLimit")) if item.get("mintLimit") is not None else "∞",
+            "inline": True,
+        },
+        {
+            "name": "📍 Estado",
+            "value": f"{status_icon} {status_raw}",
+            "inline": True,
+        },
     ]
 
     if market:
         price = market.get("price")
         usd, eur = usd_eur_from_eth(price, eth_rates)
+        market_lines = []
         if price not in (None, ""):
-            field_values.append(("📈 Mercado", f"{price} ETH"))
+            market_lines.append(f"📈 {price} ETH")
         if usd is not None:
-            field_values.append(("💵 ≈ USD", "$" + format(usd, ",.2f")))
+            market_lines.append("💵 $" + format(usd, ",.2f"))
         if eur is not None:
-            field_values.append(("💶 ≈ EUR", "€" + format(eur, ",.2f")))
+            market_lines.append("💶 €" + format(eur, ",.2f"))
+        if market_lines:
+            fields.append({
+                "name": "💹 Mercado",
+                "value": "\n".join(market_lines),
+                "inline": True,
+            })
 
-    for label, value in field_values:
-        add_field(fields, label, value, inline=True)
-
-    extra = [
-        ("🧵 Subtipo", item.get("itemSubType")),
-        ("🛠️ Product type", item.get("productType")),
-        ("🧱 Material", item.get("material")),
-        ("🎯 Set", item.get("set") or item.get("setId")),
-        ("🔢 Revision", furnidata.get("revision")),
-        ("📋 Furniline", furnidata.get("furniline")),
-        ("🎁 Offer ID", furnidata.get("offerid")),
-        ("💱 FX consultado", format_timestamp(detected_at)),
+    technical = [
+        "🧵 Subtipo: " + (clean_text(item.get("itemSubType")) or "—"),
+        "🛠️ Product type: " + (clean_text(item.get("productType")) or "—"),
+        "🧱 Material: " + (clean_text(item.get("material")) or "—"),
+        "🎯 Set: " + (clean_text(item.get("set")) or clean_text(item.get("setId")) or "—"),
     ]
-    for label, value in extra:
-        add_field(fields, label, value, inline=True)
+    if furnidata:
+        technical.extend([
+            "🔢 Revision: " + (clean_text(furnidata.get("revision")) or "—"),
+            "📋 Furniline: " + (clean_text(furnidata.get("furniline")) or "—"),
+            "🎁 Offer ID: " + (clean_text(furnidata.get("offerid")) or "—"),
+        ])
+    technical.append("💱 FX consultado: " + format_timestamp(detected_at))
+    fields.append({
+        "name": "🛠️ Datos técnicos",
+        "value": "\n".join(technical),
+        "inline": False,
+    })
 
     embed: dict[str, Any] = {
-        "title": "🆕✨ " + name,
+        "title": rarity_icon + " " + name,
         "url": "https://collectibles.habbo.com/shop/?tab=shop",
         "description": description,
+        "color": RARITY_COLORS.get(rarity_key, 0x5865F2),
         "fields": fields[:18],
-        "color": 0x7C3AED,
         "footer": {
-            "text": "📡 Habbo Furni Radar • detección " + format_timestamp(detected_at),
+            "text": "📡 Habbo Furni Radar • detectado " + format_timestamp(detected_at),
         },
         "timestamp": detected_at,
     }
@@ -503,7 +576,11 @@ def send_discord(webhook_url: str, items: list[dict[str, Any]], markets: dict[st
     if not webhook_url:
         raise RuntimeError("DISCORD_WEBHOOK_URL no está configurado.")
 
-    for item in items:
+    for index, item in enumerate(items):
+        if index:
+            # Discord documents a 30-message/minute webhook limit.
+            time.sleep(2.1)
+
         embed = build_embed(item, markets.get(item_key(item)), eth_rates, detected_at)
         post_json(
             webhook_url,
