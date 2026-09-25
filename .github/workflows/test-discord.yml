@@ -25,5 +25,5 @@ jobs:
 
       - name: Send latest 10 official releases
         env:
-          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python scripts/test_latest.py
