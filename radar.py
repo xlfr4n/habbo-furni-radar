@@ -323,73 +323,100 @@ def build_embed(item: dict[str, Any], market: dict[str, Any] | None, eth_rates: 
     furnidata = item.get("furnidata") or {}
     launch_key = release_source(item)
 
-    description = [
-        f"**Lanzamiento:** {format_timestamp(item.get(launch_key))}",
+    description_lines = [
+        f"**Lanzamiento exacto:** {format_timestamp(item.get(launch_key))}",
         f"**Visible en tienda:** {format_timestamp(item.get('visibleAtTimestamp'))}",
         f"**Creado en catálogo:** {format_timestamp(item.get('createdAt'))}",
         f"**Última actualización API:** {format_timestamp(item.get('updatedAt'))}",
+        f"**Fin de venta:** {format_timestamp(item.get('endsAtTimestamp'))}",
+        f"**Último registro de venta:** {format_timestamp(item.get('soldTimestamp'))}",
     ]
+
     api_description = clean_text(furnidata.get("furni_description"))
     if api_description:
-        description.append(f"**Descripción furnidata:** {short(api_description, 1400)}")
+        description_lines.append(
+            f"**Descripción exacta de furnidata:** {short(api_description, 1700)}"
+        )
 
-    fields: list[dict[str, Any]] = []
-    add_field(fields, "Tipo", item.get("itemType") or item.get("collection"))
-    add_field(fields, "Rareza", item.get("rarity"))
-    add_field(fields, "Colección", item.get("collection"))
-    add_field(fields, "Set", item.get("set"))
-    add_field(fields, "Subtipo", item.get("itemSubType"))
-    add_field(fields, "Product type", item.get("productType"))
-    add_field(fields, "Material", item.get("material"))
-    add_field(fields, "Score", item.get("score"))
-    if item.get("mintCost") is not None:
-        add_field(fields, "Precio emisión", f"{item.get('mintCost')} Emeralds")
-    add_field(fields, "Acuñados", item.get("minted"))
-    add_field(fields, "Límite", item.get("mintLimit") if item.get("mintLimit") is not None else "∞")
-    add_field(fields, "Estado", shop_status(item))
-    add_field(fields, "Finaliza", format_timestamp(item.get("endsAtTimestamp")))
-    add_field(fields, "Último registro venta API", format_timestamp(item.get("soldTimestamp")))
-    add_field(fields, "Product code", product_code)
-    add_field(fields, "Blueprint", clean_text(item.get("blueprint")))
+    technical_lines = [
+        f"Tipo: {clean_text(item.get('itemType') or item.get('collection')) or '—'}",
+        f"Rareza: {clean_text(item.get('rarity')) or '—'}",
+        f"Colección: {clean_text(item.get('collection')) or '—'}",
+        f"Set: {clean_text(item.get('set')) or clean_text(item.get('setId')) or '—'}",
+        f"Subtipo: {clean_text(item.get('itemSubType')) or '—'}",
+        f"Product type: {clean_text(item.get('productType')) or '—'}",
+        f"Material: {clean_text(item.get('material')) or '—'}",
+        f"Score: {clean_text(item.get('score')) or '—'}",
+        f"Precio emisión: {item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "Precio emisión: —",
+        f"Acuñados: {clean_text(item.get('minted')) or '—'}",
+        f"Límite: {item.get('mintLimit') if item.get('mintLimit') is not None else '∞'}",
+        f"Estado: {shop_status(item)}",
+        f"Product code: {product_code}",
+        f"Blueprint: {clean_text(item.get('blueprint')) or '—'}",
+    ]
 
-    for key, label in (
-        ("furni_id", "Furni ID"),
-        ("revision", "Revision"),
-        ("classname", "Classname"),
-        ("furniline", "Furniline"),
-        ("category", "Categoría furnidata"),
-        ("offerid", "Offer ID"),
-    ):
-        value = furnidata.get(key)
-        if value:
-            add_field(fields, label, value)
+    if furnidata:
+        technical_lines.extend(
+            [
+                f"Furni ID: {clean_text(furnidata.get('furni_id')) or '—'}",
+                f"Revision: {clean_text(furnidata.get('revision')) or '—'}",
+                f"Classname: {clean_text(furnidata.get('classname')) or '—'}",
+                f"Furniline: {clean_text(furnidata.get('furniline')) or '—'}",
+                f"Categoría furnidata: {clean_text(furnidata.get('category')) or '—'}",
+                f"Offer ID: {clean_text(furnidata.get('offerid')) or '—'}",
+            ]
+        )
 
     if market:
         price = market.get("price")
         usd, eur = usd_eur_from_eth(price, eth_rates)
         if price not in (None, ""):
-            add_field(fields, "Precio mercado API", f"{price} ETH")
+            technical_lines.append(f"Mercado: {price} ETH")
         if usd is not None:
-            add_field(fields, "≈ USD", "$" + f"{usd:,.2f}")
+            technical_lines.append("Mercado ≈ USD: $" + format(usd, ",.2f"))
         if eur is not None:
-            add_field(fields, "≈ EUR", f"€{eur:,.2f}")
+            technical_lines.append("Mercado ≈ EUR: €" + format(eur, ",.2f"))
         if market.get("buyType"):
-            add_field(fields, "Buy type", market.get("buyType"))
+            technical_lines.append(f"Buy type: {clean_text(market.get('buyType'))}")
         if market.get("type"):
-            add_field(fields, "Market type", market.get("type"))
+            technical_lines.append(f"Market type: {clean_text(market.get('type'))}")
+
+    description_lines.append(
+        "**Datos técnicos:** " + " · ".join(technical_lines)
+    )
+
+    description = short("\n".join(description_lines), 4050)
+
+    fields: list[dict[str, Any]] = []
+    add_field(fields, "Tipo", item.get("itemType") or item.get("collection"))
+    add_field(fields, "Rareza", item.get("rarity"))
+    add_field(fields, "Precio emisión", f"{item.get('mintCost')} Emeralds" if item.get("mintCost") is not None else "")
+    add_field(fields, "Acuñados", item.get("minted"))
+    add_field(fields, "Estado", shop_status(item))
+    if market and market.get("price") not in (None, ""):
+        price = market["price"]
+        usd, eur = usd_eur_from_eth(price, eth_rates)
+        add_field(fields, "Precio mercado", f"{price} ETH")
+        if usd is not None:
+            add_field(fields, "≈ USD", "$" + format(usd, ",.2f"))
+        if eur is not None:
+            add_field(fields, "≈ EUR", "€" + format(eur, ",.2f"))
 
     embed: dict[str, Any] = {
         "title": f"💎 {name}",
         "url": market.get("link") if market and market.get("link") else "https://collectibles.habbo.com/shop/?tab=shop",
-        "description": "\n".join(description),
-        "fields": fields[:25],
-        "footer": {"text": "Habbo Furni Radar • detectado " + format_timestamp(detected_at)},
+        "description": description,
+        "fields": fields[:10],
+        "footer": {
+            "text": "Habbo Furni Radar • detectado " + format_timestamp(detected_at),
+        },
         "timestamp": detected_at,
     }
 
     image = image_url(item)
     if image:
         embed["image"] = {"url": image}
+
     return embed
 
 
