@@ -415,7 +415,14 @@ def post_json(url: str, payload: dict[str, Any], timeout: int = 20) -> None:
                     delay = 1
                 time.sleep(max(0.5, delay))
                 continue
-            raise RuntimeError(f"Discord devolvió HTTP {exc.code}.") from exc
+
+            try:
+                detail = exc.read().decode("utf-8", errors="replace")
+            except Exception:
+                detail = ""
+            detail = short(detail, 500)
+            suffix = f" Detalle: {detail}" if detail else ""
+            raise RuntimeError(f"Discord devolvió HTTP {exc.code}.{suffix}") from exc
         except urllib.error.URLError as exc:
             if attempt < 2:
                 time.sleep(1.5 * (attempt + 1))
@@ -427,14 +434,14 @@ def send_discord(webhook_url: str, items: list[dict[str, Any]], markets: dict[st
     if not webhook_url:
         raise RuntimeError("DISCORD_WEBHOOK_URL no está configurado.")
 
-    for start in range(0, len(items), 10):
-        batch = items[start : start + 10]
+    for item in items:
+        embed = build_embed(item, markets.get(item_key(item)), eth_rates, detected_at)
         post_json(
             webhook_url,
             {
                 "username": "Habbo Furni Radar",
-                "content": f"🆕 **{len(batch)} Collectible{'s' if len(batch) != 1 else ''}** · {format_timestamp(detected_at)}",
-                "embeds": [build_embed(item, markets.get(item_key(item)), eth_rates, detected_at) for item in batch],
+                "content": f"🆕 **Nuevo Collectible** · {format_timestamp(detected_at)}",
+                "embeds": [embed],
                 "allowed_mentions": {"parse": []},
             },
         )
