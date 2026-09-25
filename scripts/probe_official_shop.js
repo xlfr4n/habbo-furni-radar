@@ -150,6 +150,10 @@ async function sendDiscord(items, observedApis) {
     if (items.length >= 10) break;
   }
 
+  // The official Shop is ordered Newest -> Oldest. The Discord test is
+  // intentionally presented Oldest -> Newest, matching the alert feed.
+  items.reverse();
+
   console.log("\n=== CANDIDATES ===");
   for (const item of items) {
     console.log(item.name + " -> " + item.image);
