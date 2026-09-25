@@ -23,6 +23,6 @@ jobs:
 
       - name: Send latest 10 furni
         env:
-          DISCORD_WEBHOOK_URL: \${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           HABBO_FURNIDATA_URL: https://www.habbo.es/gamedata/furnidata_xml/1
         run: python scripts/test_discord.py
