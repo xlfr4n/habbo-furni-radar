@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ⚡ xlfr4n // habbo-furni-radar
 
 from __future__ import annotations
 
