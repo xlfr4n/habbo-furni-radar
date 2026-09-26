@@ -101,3 +101,11 @@ python radar.py --dry-run
 📡 **Public-source driven / Basado en fuentes públicas**  
 🌍 **Documentation / Documentación:** ES + EN
 
+---
+
+## ⚡ xlfr4n // Signature
+
+<p align="center">
+  <a href="./BRAND.md">🧩 Project identity / Identidad del proyecto</a> · <a href="https://github.com/xlfr4n">⚡ xlfr4n</a>
+  <br><sub>Build it. Understand it. Automate it. Document it. · Hazlo. Entiéndelo. Automatízalo. Documéntalo.</sub>
+</p>
