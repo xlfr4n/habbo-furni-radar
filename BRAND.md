@@ -1,4 +1,4 @@
-# ⚡ xlfr4n // Project Signature
+# ⚡ xLFr4n // Project Signature
 
 > 📡 **Spot the drop. Capture the data. Keep the signal.**
 
@@ -8,7 +8,7 @@
 
 La estética puede ser juguetona; el criterio no: fuentes públicas, deduplicación, trazabilidad y alertas útiles.
 
-**Identidad:** <code>xlfr4n</code> · Habbo · automation · monitoring · collectibles
+**Identidad mostrada:** <code>xLFr4n</code> · **GitHub handle:** <code>xlfr4n</code> · Habbo · automation · monitoring · collectibles
 
 ## 🇬🇧 English
 
@@ -16,8 +16,8 @@ La estética puede ser juguetona; el criterio no: fuentes públicas, deduplicaci
 
 The visual side can be playful; the engineering standard stays serious: public sources, deduplication, traceability and useful alerts.
 
-**Identity:** <code>xlfr4n</code> · Habbo · automation · monitoring · collectibles
+**Display identity:** <code>xLFr4n</code> · **GitHub handle:** <code>xlfr4n</code> · Habbo · automation · monitoring · collectibles
 
 ---
 
-<p align="center"><strong>⚡ xlfr4n</strong> · Watch the signal · Automate the boring</p>
+<p align="center"><strong>⚡ xLFr4n</strong> · Watch the signal · Automate the boring</p>
