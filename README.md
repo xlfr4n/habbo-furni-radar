@@ -109,3 +109,21 @@ python radar.py --dry-run
   <a href="./BRAND.md">🧩 Project identity / Identidad del proyecto</a> · <a href="https://github.com/xlfr4n">⚡ xlfr4n</a>
   <br><sub>Build it. Understand it. Automate it. Document it. · Hazlo. Entiéndelo. Automatízalo. Documéntalo.</sub>
 </p>
+
+## 🧭 xLFr4n repository standard
+
+**Display signature:** ⚡ xLFr4n · **GitHub handle:** `xlfr4n`
+
+Documentation entry points:
+- `BRAND.md` — identity and communication style.
+- `CONTRIBUTING.md` — contribution workflow.
+- `SECURITY.md` — secrets and reporting.
+- `CODE_OF_CONDUCT.md` — collaboration baseline.
+- `LICENSE` — project license.
+
+### Signal policy
+
+Alerts should describe what the public sources actually returned. Do not turn missing data, temporary failures or inferred values into facts.
+
+> **📡 xLFr4n · Detect → Enrich → Verify → Alert**
+
