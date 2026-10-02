@@ -1,4 +1,4 @@
-# ⚡ Contributing to Habbo Furni Radar
+# ⚡ Contributing to xLFr4n // Habbo Furni Radar
 
 > **xLFr4n repository standard · ES + EN**
 
