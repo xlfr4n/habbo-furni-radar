@@ -1,4 +1,4 @@
-# 🤝 Code of Conduct — Habbo Furni Radar
+# 🤝 Code of Conduct — xLFr4n // Habbo Furni Radar
 
 This repository follows a simple **xLFr4n** standard: technical rigor without hostility.
 
