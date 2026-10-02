@@ -1,4 +1,4 @@
-# 🔐 Security — Habbo Furni Radar
+# 🔐 Security — xLFr4n // Habbo Furni Radar
 
 > **xLFr4n security standard · ES + EN**
 
