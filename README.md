@@ -1,4 +1,4 @@
-# 📡 Habbo Furni Radar
+# 📡 xLFr4n // Habbo Furni Radar
 
 > 🏠 **Detector automático de nuevos Habbo Collectibles → Discord**  
 > 🏠 **Automatic new Habbo Collectibles detector → Discord**
